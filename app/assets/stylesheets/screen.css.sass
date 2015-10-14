@@ -1,0 +1,647 @@
+// Grid ----------------------------------------------------------------------
+
+$blueprint-grid-columns: 24
+$blueprint-grid-width: 29px
+$blueprint-grid-margin: 10px
+
+
+@import blueprint
++blueprint
+
+
+// $blueprint-liquid-container-min-width: 350px
+
+
+// Imports -------------------------------------------------------------------
+
+// @import base
+// @import compass/typography/lists
+
+// For border radius
+
+@import compass/css3 
+
+// @import compass/utilities
+//@import "blueprint/liquid"
+
+
+a
+  text-decoration: none
+
+td
+  vertical-align: top
+
+// Google map terrain
+$terrain_blue:   #99b3cc // Blue Water
+$terrain_green:  #d0dcb6 // Green Flatland
+$terrain_forest: #94b080 // Green Forest 
+
+$guu_color: #f4b056
+$pa_color:  #fff2cc
+
+$font_color: #333
+
+$tags_border_ratio: 6px
+
+$big_button: darken(saturate($guu_color, 30%), 10%)
+$titles: darken(saturate($big_button, 20%), 10%)
+
+// $tag_geo: saturate($guu_color, 20%)
+// $tag_non_geo: darken($tag_geo, 10%)
+$tag_geo:     #eee
+$tag_non_geo: #eee
+
+$body_background_light: #3d6c9a
+$body_background_dark: #1e3d5a
+
+$post_line:      $pa_color
+$post_line_vote: #f8f8f8
+$post_line_title: $titles
+
+$h1: $titles
+$h1_shadow: white
+
+.clr
+  clear: both
+
+#user_nav
+  a:link
+    color: $guu_color
+  a:visited
+    color: $guu_color
+  a:link
+    color: $guu_color
+  a:visited
+    color: $guu_color
+
+
+input.text, input.title, input[type=email], input[type=text], input[type=password]
+  padding: 0px
+  width: 200px
+textarea
+  padding: 0px
+  margin: 0px
+  
+.add_comment
+  background-color: $pa_color
+  padding: 12px
+  @include border-radius(12px)
+
+
+input[type=submit]
+  padding: 4px 10px
+  @include border-radius(12px)
+  background-color: $pa_color
+  +linear-gradient(color-stops($pa_color, desaturate(darken($pa_color, 20%), 20%)))
+  border: 1px solid $pa_color
+  color: #565656
+input[type=submit]:hover
+  background-color: darken($pa_color, 20%)
+  +linear-gradient(color-stops(desaturate(darken($pa_color, 10%), 20%), desaturate(darken($pa_color, 40%), 20%)))
+input[type=submit]:active
+  +linear-gradient(color-stops(darken($pa_color, 20%), $pa_color))
+  border: 1px inset $guu_color
+
+.tag_container
+  margin-bottom: 6px
+  clear: both
+
+.tag_vertical
+  list-style: none
+  padding: 0px
+  li
+    padding-bottom: 0px
+
+.tag_horizontal
+  list-style: none
+  display: inline
+  padding: 0px
+  li
+    display: inline
+    
+.pagination
+  display: inline
+
+
+.phoney
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(112,112,112)),color-stop(0.51, rgb(94,94,94)),color-stop(0.52, rgb(57,57,57)))
+  background: -moz-linear-gradient(center top,rgb(112,112,112) 0%,rgb(94,94,94) 51%,rgb(57,57,57) 52%)
+  text-align: center
+  padding-top: 3px
+
+.phoneytext
+  text-shadow: 0 -1px 0 #000
+  color: #fff
+  font-family: Helvetica Neue, Helvetica, arial
+  font-size: 18px
+  line-height: 25px
+  padding: 4px 45px 4px 15px
+  font-weight: bold
+
+
+.rounded
+  @include border-radius(10px)
+  background-color: red
+
+.tag
+  float: left
+  display: inline
+  padding: 0px 6px 0px 6px
+  margin-right: 4px
+  margin-bottom: 6px
+  font-size: 90%
+  @include border-radius(10px)
+  background-color: lighten($terrain_blue, 20%)
+  // border: 1px outset lighten($terrain_blue, 20%)
+  border: 1px solid darken($terrain_blue, 20%)
+  span
+    color: #666
+    font-size: 90%
+    padding-left: .5em
+    padding-right: .5em
+
+.flag
+  display: inline
+  float: left
+  margin: 4px 5px 0 1px
+  width: 16px
+  height: 11px
+  background: url(/assets/flagssprite_small.png) no-repeat
+  cursor: help
+
+
+body
+  margin: 0px
+  background-repeat: repeat-x
+  font-size: 90%
+
+.capital
+  color: $guu_color
+.connection
+  font-size: 50%
+
+
+
+
+#errorExplanation
+  border: 3px dotted $titles
+  margin: 0 auto
+  width: 60%
+  text-align: left
+  margin-bottom: 20px
+  p
+    background-color: $titles
+    color: $pa_color
+    font-size: 110%
+    padding: 4px
+    text-align: center
+  
+.sign
+  font-family: 'Lobster', Arial, sans-serif
+  margin: 0px
+  padding: 0px
+  font-size: 140%
+
+#form_post, #form_idea
+  text-align: center
+  margin: 0 auto
+  width: 85%
+  #post_submit, #idea_submit
+    padding: 16px
+    margin: 20px
+    font-family: 'Lobster', Arial, sans-serif
+    text-shadow: 2px 2px 2px white
+    font-size: 200%
+    color: $titles
+  table
+    // background-color: $guu_color
+    border-spacing: 6px
+    text-align: left
+    margin: 0 auto
+    width: 100%
+    .odd
+      // background-color: white
+    th
+      padding-top: 16px
+      padding-right: 10px
+      background-color: darken($pa_color, 5%)
+      // border-bottom: 2px dotted darken($pa_color, 20%)
+      text-align: right
+      vertical-align: top
+      label
+        font-weight: normal
+    td
+      // border-bottom: 2px dotted darken($pa_color, 20%)
+      padding: 10px
+      input, textarea
+        width: 100%
+        margin: 0px
+        padding: 6px
+        font-size: 100%
+        font-family: "Helvetica Neue", Arial, Helvetica, sans-serif
+        border: 1px solid darken($pa_color, 20%)
+      textarea
+        height: 160px
+      .field_with_errors
+        input, textarea
+          border: 3px dotted $titles
+      #post_address_by_user, #find_button
+        width: auto
+    #address_from_api
+      padding-top: 12px
+      padding-bottom: 12px
+    #map_canvas
+      border: 1px solid darken($pa_color, 20%)
+      padding: 6px
+      width:  100%
+
+
+
+//#form_post
+//  +container
+//  //+showgrid
+//  margin-top: 30px
+//  #header
+//    +column(22, true)
+//    +prepend(1)
+//    +append(1)
+//  #left_column
+//    +column(12)
+//    +prepend(1)
+//    border: 0px solid green
+//    label
+//      +column(3)
+//      border: 0px solid red
+//      font-weight: normal
+//    input, textarea
+//      +column(8, true)
+//      border: 1px solid $guu_color
+//      margin: 0px
+//      margin-bottom: 10px
+//    #attachments
+//      clear: both
+//  #right_column
+//    +column(10, true)
+//    // +append(1) I should append one, but if I do, the map goes down
+//    border: 0px solid green
+//    div.optional
+//      display: inline 
+//      border: 0px solid red
+//    label
+//      float: left
+//      margin-right: 10px
+//      margin-top: 4px
+//      border: 0px solid red
+//      font-weight: normal
+//    input
+//      border: 1px solid $guu_color
+//      margin: 0px
+//      margin-right: 10px
+//    #map_canvas
+//      border: 1px solid $guu_color
+//      width: 100%
+//      height: 300px
+
+a:link
+  text-decoration:  none
+
+td, th
+  padding: 0px
+
+#my_body, #my_body_with_map
+  @include border-radius(24px)
+  //@include border-bottom-radius(14px)
+  width: 950px
+  margin: 0 auto
+  margin-top: 0px
+  background-color: $pa_color
+  padding-bottom: 10px
+  padding-top: 10px
+
+//#my_body
+//  @include border-radius(24px)
+//
+//#my_body_with_map
+//  @include border-bottom-radius(14px)
+
+#my_footer
+  padding: 10px
+  width: 950px
+  margin: 0 auto
+  text-align: center
+  color: $pa_color
+  a:link
+    color: $guu_color
+  a:visited
+    color: $guu_color
+  a:link
+    color: $guu_color
+  a:visited
+    color: $guu_color
+  
+  
+.two-col
+  //+showgrid
+  +container
+  #left_column
+    +column(18)
+  #right_column
+    +column(6,true)
+  #header, #footer
+    +column(24)
+  #footer
+    padding: 20px
+    text-align: center
+
+h1
+  font-family: 'Lobster', Arial, sans-serif
+  text-shadow: 2px 2px 2px white
+  color: $h1
+  font-size: 240%
+
+h2
+  font-family: 'Lobster', Arial, sans-serif
+  text-shadow: 2px 2px 2px white
+  color: $h1
+  font-size: 180%
+
+h3
+  // font-family: 'Lobster', Arial, sans-serif
+  // text-shadow: 2px 2px 2px white
+  // color: darken($h1, 20%)
+  font-size: 130%
+
+h4
+  // font-family: 'Lobster', Arial, sans-serif
+  // text-shadow: 2px 2px 2px white
+  // color: darken($h1, 20%)
+  font-size: 110%
+
+.h3_stlye
+  font-family: 'Lobster', Arial, sans-serif
+  text-shadow: 2px 2px 2px white
+  color: $h1
+  font-size: 140%
+
+.palette
+  .background
+    background-color: $pa_color
+  .terrain_blue
+    background-color: $terrain_blue
+  .terrain_green
+    background-color: $terrain_green
+  .terrain_forest
+    background-color: $terrain_forest
+
+
+  
+
+.header
+
+.minimap
+  float: left
+  padding-right: 4px
+  .map_image
+    display: inline
+  .map_text
+    text-align: center
+    background-color: $terrain_blue 
+
+.motto
+  background-color: #f1dfb0
+  @include border-radius(14px)
+  padding: 10px 20px 20px 20px
+  margin: 10px 0 10px 0
+  h2
+    margin: 0px
+
+.big_button
+  font-family: 'Lobster', Arial, sans-serif
+  text-shadow: 1px 1px 1px gray
+  @include border-radius(14px)
+  text-decoration:  none
+  border: 1px outset $big_button
+  background-color: $big_button
+  text-align: center
+  padding: 10px
+  margin-bottom: 10px
+  font-size: 220%
+  display: block
+.big_button_hover
+  font-family: 'Lobster', Arial, sans-serif
+  text-shadow: 1px 1px 1px gray
+  @include border-radius(14px)
+  text-decoration:  none
+  border: 1px inset desaturate(lighten($big_button, 5%), 5%)
+  background-color: desaturate(lighten($big_button, 5%), 5%)
+  text-align: center
+  padding: 10px
+  margin-bottom: 10px
+  font-size: 220%
+  display: block
+
+a.big_button:link
+  color: white
+a.big_button:visited
+  color: white
+a.big_button_hover:link
+  color: white
+a.big_button_hover:visited
+  color: white
+
+
+
+
+
+.small_button
+  font-weight: bold
+  @include border-radius(6px)
+  text-decoration:  none
+  border: 1px outset $big_button
+  background-color: $big_button
+  text-align: center
+  padding: 4px
+  margin-top: 10px
+.small_button_hover
+  text-shadow: 1px 1px 1px gray
+  @include border-radius(4px)
+  text-decoration:  none
+  border: 1px inset desaturate(lighten($big_button, 5%), 5%)
+  background-color: desaturate(lighten($big_button, 5%), 5%)
+  text-align: center
+  padding: 10px
+  margin-top: 10px
+
+a.small_button:link
+  color: white
+a.small_button:visited
+  color: white
+a.small_button_hover:link
+  color: white
+a.small_button_hover:visited
+  color: white
+
+#logo
+  float: left
+  margin: 0px
+  margin-top: 40px
+  margin-bottom: 0px
+  font-family: 'Lobster', Arial, sans-serif
+  color: $pa_color
+  text-shadow: 2px 2px 2px #333
+  font-size: 230%
+  img
+    margin: 0px
+    // margin-right: 20px
+    // margin-left: 20px
+    border: 0px
+    vertical-align: bottom
+  a:link
+    color: $pa_color
+  a:visited
+    color: $pa_color
+  a:link
+    color: $pa_color
+  a:visited
+    color: $pa_color
+  a:hover
+    color: darken(saturate($pa_color, 5%), 10%) 
+
+#my_header
+  width: 960px
+  margin: 0 auto
+  border: 0px solid red
+
+#no_map
+  clear: both
+
+#map_border
+  clear: both
+  background-image: url('/images/map_frame.png')
+  background-repeat: no-repeat
+  border: 0px solid red
+  padding-top: 12px  
+  padding-bottom: 10px
+  padding-left: 13px
+  padding-right: 10px
+  width:  100%
+  height: 200px
+#map_canvas
+  border: 0px solid red
+  margin: 0px
+  padding: 0px
+  width:  940px
+  height: 245px
+//  width:  $map_width
+
+// Tags buttons
+.non_geo
+  @include border-radius($tags_border_ratio)
+  background-color: $tag_non_geo
+  border: 1px outset $tag_non_geo
+  padding: 4px
+  margin: 2px
+.non_geo_hover
+  @include border-radius($tags_border_ratio)
+  background-color: $tag_non_geo
+  border: 1px inset $tag_non_geo
+  padding: 4px
+  margin: 2px
+.geo
+  @include border-radius($tags_border_ratio)
+  background-color: $tag_geo
+  border: 1px outset $tag_geo
+  padding: 4px
+  margin: 2px
+.geo_hover
+  @include border-radius($tags_border_ratio)
+  background-color: $tag_geo
+  border: 1px inset $tag_geo
+  padding: 4px
+  margin: 2px
+
+.votes_counter
+  font-size: 180%
+  font-weight: bold
+  display: inline
+  color: #565656
+.votes_description
+  font-size: 90%
+  margin: 0 0 8px 0
+  padding: 0
+  color: #565656
+
+
+.post_line
+  background-color: transparent
+  margin-bottom: 4px
+  border-collapse: collapse
+  border-spacing: 0px
+
+  .owner
+    background-color: $pa_color
+    margin: 0 px
+    padding: 2px
+    padding-left: 6px
+    font-size: 90%
+    text-align: center
+
+  .counter
+    // padding-top: 36px
+    width: 1px
+    text-align: center
+    //padding-right: 6px
+    padding-left: 6px
+    font-size: 90%
+    
+  .importance
+    // background: url('/assets/icons/escl_br_ye.png')
+    // background-repeat: no-repeat
+    // background-position: center top
+
+  .views
+    // background: url('/assets/icons/people_br_ye.png')
+    // background-repeat: no-repeat
+    // background-position: center top
+
+  .ideas
+    // background: url('/assets/icons/bulb_br_ye.png')
+    // background-repeat: no-repeat
+    // background-position: center top
+
+  .volunteers
+    // background: url('/assets/icons/hand_br_ye.png')
+    // background-repeat: no-repeat
+    // background-position: center top
+
+  .votes
+    // background: url('/assets/icons/thumb_br_ye.png')
+    // background-repeat: no-repeat
+    // background-position: center top
+
+  .counter_box
+    @include border-radius(5px)
+    border: 2px outset white
+    float: left
+    text-align: center
+    background-color: $post_line_vote
+    margin: 4px
+    padding: 4px
+  td
+    border: 0px solid red
+    .number
+      font-size: 200%
+      font-weight: bold
+    .gray
+      color: gray      
+  h2
+    margin: 0px
+    a
+      font-family: 'Lobster', Arial, sans-serif
+      text-shadow: 1px 1px 1px white
+      color: $post_line_title
+      text-shadow: 2px 2px 2px white
+  .float_clearer
+    clear: both
+
+

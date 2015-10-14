@@ -1,0 +1,12 @@
+- if @current_user
+  %table
+    - @current_user.connections.each do |c|
+      %tr
+        %td #{c.id}
+        %td #{c.session_id}
+        %td #{c.user_random_id}
+        %td #{c.user_id}
+        %td #{c.ip}
+        %td #{c.agent}
+        %td #{c.active}
+

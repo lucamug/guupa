@@ -1,0 +1,46 @@
+%div{:style => "padding: 60px 110px 60px 100px"}
+  - if I18n.locale == :en
+    :markdown
+      # Privacy Policy
+
+      Guupa knows that you take your privacy seriously. We do, too. We are committed to giving you transparency of our privacy practices and control over your data.
+
+      This statement is meant to inform our users of how we define, gather and utilize personally identifiable information. We will take reasonable steps to protect user privacy consistent within the guidelines set forth in this policy and the law. By using this site, you consent to the following privacy policy.
+
+      ## Personal Information
+
+      User information is collected when filling out a form, or signing in through a third party service.
+
+      Cookies are used to store information about your current session and other preferences. This information may be used to track user progress and to offer a more personalized experience. Cookies can be disabled or cleared in your web browser settings.
+
+      ## Third Parties
+
+      We do not sell, trade, or otherwise transfer user information to outside parties. This does not include trusted third parties who assist us in operating our website, conducting our business, or servicing you, so long as those parties agree to keep this information confidential. We may also release your information when we believe release is appropriate to comply with the law, enforce our site policies, or protect ours or others rights, property, or safety. However, non-identifiable visitor information may be provided to other parties for marketing, advertising, or other uses.
+
+      Any linked, third party sites have separate and independent privacy policies. We therefore have no responsibility or liability for the content and activities of these linked sites.
+
+
+  - elsif I18n.locale == :it
+    :markdown
+      # Politica sulla Privacy
+
+      Guupa sa che tu prendi la privacy molto sul serio. Lo facciamo anche noi. Lavoriamo duro per darti trasparenza sulla nostre regole di privacy e su come trattiamo i tuoi dati.
+
+      Questo documento ha lo scopo di informare i nostri utenti su come noi definiamo, raccogliamo e utilizziamo i dati di indentificazione personale. Ci prendiamo la responsabilità di proteggere la privacy degli utenti in conformità con le linee guida dettate da questo documento e dalle leggi vigenti. Usando questo sito web tu accetti a questa politica sulla privacy.
+
+      ## Dati Personali
+      
+      I dati personali sono raccolti riempendo il form di iscrizione, oppure iscrivendoti attraverso un servizio esterno.
+
+      I cookie sono usati per immagazzinare informazioni sulla tua sessione attuale e per altre opzioni. Queste informazioni possono essere usate per verificare il movimento degli utenti e per fornire un servizio maggiormente personalizzato. I cookie possono essere disabilitati e rimossi usango i settaggi del tuo browser.
+
+      ## Terze Parti
+
+      Noi non vendiamo, scambiamo o trasferiamo in alcun modo le informazioni sugli utenti a servizi esterni. Questo non include servizi esterni affidabili che ci aiutano a far funzionare il sito ammesso che questi servizi esterni abbiano accettato di tenere i dati riservati. Possiamo rilasciare le informazioni anche in caso che riteniamo che questo sia in linea con le leggi vigenti, rispetti la nostra politica sulla privacy oppure protegga i nostri o altrui diritti, proprietà o sicurezza. In ogni caso dati che non portano all'identificazione degli utenti possono essere rilasciati a terze parti per motivi di marketing, pubblicità o altri usi.
+      
+      Ogni sito web esterno collegato attraverso dei collegamenti (link) al nostro ha una politica della privacy diversa e indipendente dalla nostra. Noi non ci prendiamo quindi nessuna responsabilità per il contenuto o le attivita di questi siti web.
+      
+  = t(:to_be_in_contact_with_us).html_safe
+  .sign
+    = t(:the_guupa_team).html_safe
+

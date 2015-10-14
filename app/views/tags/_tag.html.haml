@@ -1,0 +1,7 @@
+-#-Util.my_log("Working on tag #{tag.name}")
+-#- if tag.level.blank?
+-#  -# This is a not geographic tag
+-#  %span{:class => "non_geo"} #{new_link_to(tag.translated, :add_tag_obj => tag)} #{new_link_to("[X]", :remove_tag_obj => tag)}
+-#- else
+-#  -# This is a geographic tag
+-#  %span{:class => "geo"} #{new_link_to(tag.translated, :area => tag.translated)}

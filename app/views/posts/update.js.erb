@@ -1,0 +1,1 @@
+$('#edit_post_<%= @post.id %>').html("<%= escape_javascript(render :partial => 'votes/show', :locals => {:item => @post, :vote => @vote}) %>");

@@ -1,0 +1,92 @@
+- display = "none"
+- display = "block" if show_debug?
+.two-col
+  .header{:style => "padding: 40px"}
+    .rounded{:style => "background-color: #f1dfb0; padding: 12px; margin: 0px; margin-bottom: 14px"}
+      %table{:style => "margin: 0px; border-collapse:collapse;", :border => 0}
+        %tr
+          %td{:rowspan => 2, :style => "padding-top: 6px; width: 70px"}
+            = render :partial => "votes/show", :locals => {:item => @post, :vote => @post.votes.where(:user_id => current_user_id).first}
+            .clr
+            %div{:style => "margin: 20px; text-align: center"}
+              = facebook_button(@og[:url], @html_title)
+              = twitter_button(@og[:url], @html_title)
+              = google_button(@og[:url], @html_title)
+          %td{:style => "padding-left: 20px; padding-right: 20px"}
+            %h2{:style => "margin-top: 0px"}
+              #{@post.translated_title}
+              - if can? :update, @post
+                #{link_to image_tag("icons/pencil_gray_s.png"), my_edit_path(@post)}
+          %td{:rowspan => 2, :style => "width: 1px"}
+            .owner{:style => "border: 0px solid orange; background-color: orange; margin: 20 px; padding: 10px; width: 220px"}
+              #{t :created_by} #{link_to(@post.user.username_for_display, user_path(@post.user_id))}  #{time_ago_in_words(@post.created_at)} #{t :ago}.
+            #post_map_lat{:style => "display: #{display}"} #{@post.map_lat}
+            #post_map_lng{:style  => "display: #{display}"} #{@post.map_lng}
+            #map_area{:style => "width: 240px; height: 180px"}
+            .owner{:style => "border: 0px solid orange; background-color: orange; margin: 20 px; padding: 10px;  width: 220px"}
+              #{@post.map_address}
+            - @post.attachments.each do |attachment|
+              %a{:href => attachment.document.url(:large), :rel => "prettyPhoto[pp_gal]"}
+                = image_tag attachment.document.url(:thumb), :style => "display: block; border: 0"
+        %tr
+          %td{:style => "padding-left: 20px; padding-right: 20px"}
+            = description_to_display(@post.description)
+            - if @post.closed?
+              = t(:closed_problem)
+              = link_to(t(:problem_is_there_again), open_path(:id => @post.id))
+            - else
+              = t(:open_problem)
+              = link_to(t(:problem_solved), close_path(:id => @post.id))
+            .clr{:style => "margin-top: 20px"}
+            - tags_ids = @post.tags.map{|a| a.id}
+            - @preloaded = Meta.preload_tags_and_translations(tags_ids)
+            - @uri_current_all = "/" + uri_escape(current_website_obj.translated) + "/" + uri_escape(current_area_translated) + current_nongeo_filter_objs.map{|tag| "/" + uri_escape(tag.translated_without_square_brackets) }.join
+            = render :partial => "tags/list",     :locals => {:group => :issue, :group_data => @post.tags.map{|a| a.id}, :type => :horizontal}
+            .clr{:style => "padding: 6px"}
+            = render :partial => "comments/list", :locals => {:post => @post}
+    - if show_debug?
+      = render :partial => "history", :locals => {:post => @post}
+    - if current_website_id == 2
+      - ideas = @post.children
+      -if ideas.size > 0
+        %h2{:style => "border-bottom: 0px dotted orange; padding: 0px"}
+          #{ t(:ideas, :count => ideas.size) }
+        - ideas.each do |idea|
+          .rounded{:style => "background-color: #f1dfb0; padding: 12px; margin: 0px; margin-bottom: 14px"}
+            %table{:style => "margin: 0px; border-collapse:collapse;", :border => 0}
+              %tr
+                %td{:rowspan => 2, :style => "padding-top: 6px; text-align: center; width: 70px"}
+                  = render :partial => "votes/show", :locals => {:item => idea, :vote => idea.votes.where(:user_id => current_user_id).first}
+                %td{:style => "padding-left: 20px; padding-right: 20px"}
+                  %h2{:style => "margin-top: 0px"}
+                    #{idea.translated_title}
+                    - if can? :update, idea
+                      #{link_to image_tag("icons/pencil_gray_s.png"), my_edit_path(idea)}
+                %td{:rowspan => 2, :style => "width: 240px"}
+                  .owner{:style => "border: 1px solid orange; background-color: orange; margin: 20 px; padding: 10px"}
+                    #{t :created_by} #{link_to(idea.user.username_for_display, user_path(idea.user_id))}  #{time_ago_in_words(idea.created_at)} #{t :ago}
+                  - idea.attachments.each do |attachment|
+                    %a{:href => attachment.document.url(:large), :rel => "prettyPhoto[pp_gal]"}
+                      = image_tag attachment.document.url(:thumb)
+              %tr
+                %td{:style => "padding-left: 20px; padding-right: 20px"}
+                  = RDiscount.new(sanitize(idea.description, :tags => %W(table tr td))).to_html.html_safe
+                  - if @post.progress and @post.progress > 0
+                    #{t(:precentage_progress)}: #{@post.progress}%
+                    = link_to(t(:edit_progress), progress_path)
+                  - else
+                    = link_to(t(:start_progress), progress_path(:id => idea.id))
+                  = render :partial => "comments/list", :locals => {:post => idea}
+                  - if idea.count_vote_2 > 0
+                    %h3= t(:volunteers)
+                    = idea.votes.where(:vote_2 => 1, :user_visible => 1).map{|vote| link_to(vote.user.username_for_display, vote.user)}.join(", ").html_safe
+          - if show_debug?
+            = render :partial => "history", :locals => {:post => idea}
+
+      - else
+        %h2{:style => "text-align: center; padding-top: 30px"} #{t :no_ideas_yet}
+      .button{:style => "margin: auto; padding-top: 30px; width: 300px"}
+        -if ideas.size > 0
+          =link_to t('i_have_a_new_idea_too'),  new_idea_path(:post_id => @post.id), :class => "big_button"
+        -else
+          =link_to t('i_have_a_new_idea'),  new_idea_path(:post_id => @post.id), :class => "big_button"

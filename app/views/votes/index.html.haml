@@ -1,0 +1,22 @@
+- if current_user_obj
+  %table
+    %tr
+      %th id
+      %th user_id
+      %th votable_id
+      %th votable_type
+      %th like
+      %th favorite
+      %th created_at
+      %th updated_at
+    - current_user_obj.votes.each do |v|
+      %tr
+        %td #{v.id}
+        %td #{v.user_id}
+        %td #{v.votable_id}
+        %td #{v.votable_type}
+        %td #{v.like}
+        %td #{v.favorite}
+        %td #{v.created_at}
+        %td #{v.updated_at}
+

@@ -1,0 +1,17 @@
+- image = "N/A"
+- if attachment && attachment.document.file?
+  - image = image_tag attachment.document.url(:thumb), :style => "width: 120px; height: 90px; border: 1px solid gray"
+- elsif url = post.static_map
+  - image = image_tag url
+= link_to(image, post)
+  
+-# %table{:class => "post_linee", :border => "0px", :style => "border-collapse: collapse; border-spacing: 0px"}
+  -# %tr
+    -# %td= render :partial => "votes/show", :locals => {:item => item, :vote => vote}
+    -# %td= image
+
+
+-# This is temporary html_sasfe because I am ouputting some data. should go back to normal
+-# %p #{item.description.html_safe}
+=# render :partial => "tags/list", :locals => {:type => :horizontal, :tags => item.tags, :group => :post, :quantities => {}}
+

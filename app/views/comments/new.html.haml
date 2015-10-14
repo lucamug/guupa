@@ -1,0 +1,4 @@
+#form_post
+  %h2= t("changin_status_to_post_#{@comment.from_action}")
+  = @comment.commentable.title
+  = render :partial => "form", :locals => {:comment => @comment}

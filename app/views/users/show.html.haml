@@ -1,0 +1,100 @@
+-# @user is the user loaded from the url
+- votes    =     Vote.where(:user_id => @user.id,     :votable_website_id => current_website_id,     :votable_type => "Post").includes(:votable)
+- posts    =     Post.where(:user_id => @user.id,             :website_id => current_website_id                             )
+- comments =  Comment.where(:user_id => @user.id, :commentable_website_id => current_website_id, :commentable_type => "Post") # .includes(:commentable)
+
+
+- result = {}
+- result[:problems]       = []
+- result[:ideas]          = []
+- result[:liked_ideas]    = []
+- result[:liked_problems] = []
+- result[:volunteers]     = []
+- result[:comments]       = comments
+- votes.each do |vote|
+  - if vote.vote_1 == 1
+    - result[:liked_ideas].push vote.votable
+  - elsif vote.vote_4 == 1
+    - result[:liked_problems].push vote.votable
+  - elsif vote.vote_2 == 1 # Volunteer
+    - result[:volunteers].push vote.votable
+- posts.each do |post|
+  - if post.father
+    - result[:ideas].push post
+  - else
+    - result[:problems].push post
+
+.two-col
+  .header
+    #left_column
+      .inner{:style => "padding-left: 40px"}
+        - if current_user_obj.id == @user.id
+          %h2= t(:your_actions)
+        - else
+          %h2= t(:this_user_action, :username => @user.username_for_display)
+        %h3 #{ t(:you_offered_volunteer_for_ideas, :count => result[:volunteers].size) }
+        - if result[:volunteers].size > 0
+          %ol
+            - result[:volunteers].each do |item|
+              %li= render :partial => "posts/simple_line", :locals => {:item => item}
+        - else
+          - if current_user_id == @user.id
+            %ul
+              %li= t :help_volunteering_meaning
+              %li= t :help_volunteering_how
+        %h3 #{ t(:you_had_ideas, :count => result[:ideas].size) }
+        - if result[:ideas].size > 0
+          %ol
+            - result[:ideas].each do |item|
+              %li= render :partial => "posts/simple_line", :locals => {:item => item}
+        - else
+          - if current_user_id == @user.id
+            %ul
+              %li= t :help_idea_meaning
+              %li= t :help_idea_how
+        %h3 #{ t(:you_proposed_problems, :count => result[:problems].size) }
+        - if result[:problems].size > 0
+          %ol
+            - result[:problems].each do |item|
+              %li= render :partial => "posts/simple_line", :locals => {:item => item}
+        - else
+          - if current_user_id == @user.id
+            %ul
+              %li= t :help_problem_meaning
+              %li= t :help_problem_how
+
+        %h3 #{ t(:you_made_comments, :count => result[:comments].size) }
+        - if result[:comments].size > 0
+          %ol
+            - result[:comments].each do |item|
+              %li= render :partial => "posts/simple_line", :locals => {:item => item}
+        - else
+          - if current_user_id == @user.id
+            %ul
+              %li= t :help_comment_meaning
+              %li= t :help_comment_how
+
+        %h3 #{ t(:you_liked_ideas, :count => result[:liked_ideas].size) }
+        - if result[:liked_ideas].size > 0
+          %ol
+            - result[:liked_ideas].each do |item|
+              %li= render :partial => "posts/simple_line", :locals => {:item => item}
+        - else
+          - if current_user_id == @user.id
+            %ul
+              %li= t :help_liked_idea_meaning
+              %li= t :help_liked_idea_how
+
+        %h3 #{ t(:you_consider_important_problems, :count => result[:liked_problems].size) }
+        - if result[:liked_problems].size > 0
+          %ol
+            - result[:liked_problems].each do |item|
+              %li= render :partial => "posts/simple_line", :locals => {:item => item}
+        - else
+          - if current_user_id == @user.id
+            %ul
+              %li= t :help_important_problem_meaning
+              %li= t :help_important_problem_how
+
+    #right_column
+      = render :partial => "user_column", :locals => {:user => @user}          

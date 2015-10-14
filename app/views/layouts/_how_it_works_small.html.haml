@@ -1,0 +1,26 @@
+%table
+  %tr
+    %td{:style => "padding: 5px 5px 5px 0"}
+      = image_tag("icons/01_small.png")
+    %td{:style => "border-bottom: 2px solid orange; vertical-align: middle"}
+      %h4{:style => "margin: 0"}= t :step_1_title
+  %tr
+    %td{:style => "padding: 5px 5px 5px 0"}
+      = image_tag("icons/02_small.png")
+    %td{:style => "border-bottom: 2px solid orange; vertical-align: middle"}
+      %h4{:style => "margin: 0"}= t :step_2_title
+  %tr
+    %td{:style => "padding: 5px 5px 5px 0"}
+      = image_tag("icons/03_small.png")
+    %td{:style => "border-bottom: 2px solid orange; vertical-align: middle"}
+      %h4{:style => "margin: 0"}= t :step_3_title
+  %tr
+    %td{:style => "padding: 5px 5px 5px 0"}
+      = image_tag("icons/04_small.png")
+    %td{:style => "vertical-align: middle"}
+      %h4{:style => "margin: 0"}= t :step_4_title
+  %tr
+    %td{:colspan => "2", :style => "text-align: right"}
+      = link_to(t(:details) + "...", help_path)
+
+

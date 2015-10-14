@@ -1,0 +1,9 @@
+<%- stopw.take_time("ERB views/tags/_list: START") %>
+<h2><%= group %></h2>
+<ol>
+  <%- group_data.keys.each do |tag_id|; translated = @new_tag_translations[tag_id] || @new_tag_names[tag_id] %>
+    <li><a href="<%= @current_cleaned_uri + "/" + CGI::escape(translated) %>"><%= translated + " " + @new_tag_levels[tag_id].to_s %></a></li>
+  <%- end %>
+</ol>
+<%- stopw.take_time("ERB views/tags/_list: END") %>
+

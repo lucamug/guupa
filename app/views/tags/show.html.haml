@@ -1,0 +1,13 @@
+%h2 Tag
+#{debug item}
+%h2 Posts
+- if item.posts.size > 0
+  - item.posts.each do |c|
+    = render :partial => "cases/line", :locals => {:item => c}
+- else
+  No posts available
+%h2 Translations
+#{debug item.translations}
+%h2 Ideas
+#{debug item.ideas}
+

@@ -1,0 +1,11 @@
+%ol
+- items.each do |item|
+  %li 
+    #{link_to item.translated, item}
+    #{link_to item.translated, url_for(:tag_1 => item.translated, :controller => :pages, :action => :home)}
+    %ul{:style => "margin-left: 20px"}
+      - item.translations.each do |translation|
+        %li
+          #{translation.language} = #{translation.name}   
+          #{link_to "Wikipedia", "http://" + translation.language + ".wikipedia.org/wiki/" + translation.name.gsub(/ /, "_")}
+          #{link_to "Edit", my_edit_path(translation)}

@@ -1,0 +1,62 @@
+- image = ""
+- if attachment && attachment[0].document.file?
+  - image = image_tag attachment[0].document.url(:thumb), :style => "width: 120px; height: 90px; border: 1px solid gray"
+- elsif url = post.static_map
+  - image = image_tag url, :style => "width: 120px; height: 90px; border: 1px solid gray"
+  -# image = url.inspect
+- idea = nil
+- idea = post.children.order("count_vote_1 DESC").first # Select the best idea
+.rounded{:style => "background-color: #f1dfb0; padding: 6px; margin: 0px; margin-bottom: 14px"}
+  %table{:class => "post_line"}
+    %tr{:style => ""}
+      %td{:class => "counter importance"}
+        .number= post.count_vote_4
+        = t "counter.importance", :count => post.count_vote_4
+      %td{:class => "counter views"}
+        .number= post.count_views
+        = t "counter.views", :count => post.count_views
+      %td{:class => "counter ideas"}
+        .number= post.count_children
+        = t "counter.ideas", :count => post.count_children
+      %td{:class => "counter volunteers"}
+        - if idea
+          .number= idea.count_vote_2
+          = t "counter.volunteers", :count => idea.count_vote_2
+        - else
+          .gray
+            .number 0
+            = t "counter.volunteers", :count => 0
+      %td{:class => "counter votes"}
+        - if idea
+          .number= idea.count_vote_1
+          = t "counter.votes", :count => idea.count_vote_1
+        - else
+          .gray
+            .number= 0
+            = t "counter.votes", :count => 0
+      %td{:style => "padding-left: 6px; padding-bottom: 1em; padding-right: 6px"}
+        %span{:style => "font-size: 110%; font-weight:normal;"}
+          - if idea
+            #{link_to( idea.translated_title, idea_path(:id => idea.id))}
+            %span{:style => "font-weight:bold;"}
+              = t :because
+            #{link_to(post.translated_title, post)}.
+          - else
+            #{link_to(post.translated_title, post)}
+            %span{:style => "font-weight:bold;"}
+              = t(:and_nobody_got_an_idea_yet) + "."
+            = link_to t(:i_have_one), new_idea_path(:post_id => post.id)
+        .clr{:style => "padding-bottom: 10px"}
+        = render :partial => "tags/list",  :locals => {:group => :issue, :group_data => tag_ids, :type => :horizontal}
+      %td{:style => "width: 120px"}
+        .owner
+          #{time_ago_in_words(post.created_at)} #{t :ago}
+        = link_to(image, post)
+
+=# link_to image_tag("/icons/add_idea.png", :style => "padding-right: 8px; padding-left: 8px"), new_idea_path(:post_id => post.id)
+
+
+-# This is temporary html_sasfe because I am ouputting some data. should go back to normal
+-# %p #{post.description.html_safe}
+=# render :partial => "tags/list", :locals => {:type => :horizontal, :tags => post.tags, :group => :post, :quantities => {}}
+

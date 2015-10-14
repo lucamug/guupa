@@ -1,0 +1,38 @@
+.two-col
+  .header
+    #left_column
+      .inner{:style => "padding-left: 40px"}
+        %h2= t :your_messages
+        %h3= t :sent_messages
+        -# messages = current_user_obj.messages.page(1).order("created_at DESC")
+        - messages = current_user_obj.sent_messages.page(1).order("created_at DESC").includes(:recipient)
+        -# #{page_entries_info messages} &nbsp; &nbsp; #{will_paginate messages} 
+        %table{:style => "border-collapse: collapse; border-color: orange", :border => "1px"}
+          %tr
+            %th= t(:to).capitalize
+            %th= t(:messages_no_count, :count => 1)
+          - messages.each do |message|
+            %tr
+              %td{:style => "padding: 0px 4px 0px 4px"}
+                =link_to( message.recipient.username_for_display, message.recipient )
+              %td{:style => "padding: 0px 4px 0px 4px"}
+                = message.body
+        %h3= t :received_messages
+        -# messages = current_user_obj.messages.page(1).order("created_at DESC")
+        - messages = current_user_obj.received_messages.page(1).order("created_at DESC").includes(:sender)
+        -# #{page_entries_info messages} &nbsp; &nbsp; #{will_paginate messages} 
+        %table{:style => "border-collapse: collapse; border-color: orange", :border => "1px"}
+          %tr
+            %th= t(:from)
+            %th= t(:messages_no_count, :count => 1)
+            
+          - messages.each do |message|
+            %tr
+              %td{:style => "padding: 0px 4px 0px 4px"}
+                =link_to( message.sender.username_for_display, message.sender )
+              %td{:style => "padding: 0px 4px 0px 4px"}
+                = message.body
+    #right_column
+      = render :partial => "users/user_column", :locals => {:user => current_user_obj}          
+
+  

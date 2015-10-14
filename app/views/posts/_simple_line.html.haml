@@ -1,0 +1,14 @@
+- if item.class.to_s == "Comment"
+  = item.body
+  = t(:comment_to)
+  - item = item.commentable
+- if item.class.to_s == "Post"
+  - if item.is_idea?
+    - problem = item.father
+    #{link_to(item.title, item)}
+    %b
+      #{t :because}
+    #{link_to(problem.title, problem)}
+  - else
+    #{link_to(item.title, item)}
+

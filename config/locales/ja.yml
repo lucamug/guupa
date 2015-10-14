@@ -1,0 +1,51 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+ja:
+  will_paginate:
+    previous_label: "&#8592; 前回"
+    next_label: "次回 &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page:
+        zero:  "No %{model} found"
+        one:   "Displaying 1 %{model}"
+        other: "Displaying all %{count} %{model}"
+      single_page_html:
+        zero:  "No %{model} found"
+        one:   "Displaying <b>1</b> %{model}"
+        other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
+
+      multi_page: "Displaying %{model} %{from} - %{to} of %{count} in total"
+      multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> in total"
+  titles:
+    cases:
+      index:   ケース
+      new:     新ケース
+      show:    ケース
+    connections:
+      new:     Sign in
+      index:   Connections
+    ideas:
+      index:   Ideas
+      new:     New Idea
+      show:    Idea
+    pages:
+      home:    ホーム
+      about:   About
+      help:    Help
+      contact: Contact
+      documentation: Documentation
+    votes:
+      index:   Votes
+    tags:
+      index:   Tags
+
+  form:
+    idea:
+      title:      Title
+      title_help: What is you case or your question?
+  version_plugin:
+    create:    Created
+    update:    Updated
+

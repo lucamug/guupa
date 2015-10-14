@@ -1,0 +1,63 @@
+%div{:style => "border: 0px solid red; position:relative"}
+  %ul{:id => "jsddm"}
+    -# - if can? :access, :rails_admin
+    -#   %li{:style => "background: #dd3333"}
+    -#     #{link_to "Admin", rails_admin_path}
+    - if current_user_obj.nobody?
+      %li
+        = link_to t(:sign_in), sign_in_path
+    - elsif current_user_obj.guest?
+      %li
+        - link_text =  " &nbsp; " + image_tag("down.png", :style => "vertical-align: middle")
+        - link_text = "#{t :user}: #{t :guest}" + link_text
+        #{link_to link_text.html_safe, user_path(current_user_obj)}
+        %ul
+          %li= link_to t(:your_actions), user_path(current_user_obj) 
+          %li= link_to t(:add_email_and_became_a_temporary_user), to_temporary_path(current_user_obj) 
+          %li= link_to t(:sign_in_as_registered_user), sign_in_path
+    - elsif current_user_obj.temporary?
+      %li
+        - link_text =  " &nbsp; " + image_tag("down.png", :style => "vertical-align: middle")
+        - link_text = "#{t :user}: #{t :temporary}" + link_text
+        #{link_to link_text.html_safe, user_path(current_user_obj)}
+        %ul
+          %li= link_to t(:your_actions), user_path(current_user_obj) 
+          %li= link_to_unless_current t(:edit_email), to_temporary_path(current_user_obj) 
+          %li= link_to t(:sign_out), sign_out_path
+          %li= link_to t(:sign_in_as_registered_user), sign_in_path
+    - elsif current_user_obj.registered?
+      %li
+        - link_text = "#{t :user}: " + current_user_obj.username_for_display + " &nbsp; " + image_tag("down.png", :style => "vertical-align: middle")
+        #{link_to link_text.html_safe, user_path(current_user_obj)}
+        %ul
+          %li= link_to( t(:your_actions), user_path(current_user_obj) )
+          %li= link_to( t(:your_messages), messages_path )
+          -# %li= link_to( t(:edit_profile), my_edit_path(current_user_obj) )
+          %li= link_to( t(:edit_password), edit_user_password_path(current_user_obj) )
+          %li= link_to( t(:edit_email), edit_user_email_path(current_user_obj) )
+          %li= link_to t(:sign_out), sign_out_path
+    - else
+      raise "User was in a wrong submode #{debug current_user_obj}"
+    - if request.get?
+      - backup = I18n.locale
+      - if I18n.locale == :en
+        %li
+          - link_text = t(:language) + ": English &nbsp; " + image_tag("down.png", :style => "vertical-align: middle")
+          = new_link_to(link_text.html_safe, :area => current_area_obj.translated, :l => 'en')
+          %ul
+            %li
+              - I18n.locale = :it
+              #{new_link_to("Italian", :area => current_area_obj.translated, :l => 'it')}
+      - elsif I18n.locale == :it
+        %li
+          - link_text = t(:language) + ": Italiano &nbsp; " + image_tag("down.png", :style => "vertical-align: middle")
+          = new_link_to(link_text.html_safe, :area => current_area_obj.translated, :l => 'it')
+          %ul
+            %li
+              - I18n.locale = :en
+              #{new_link_to("English", :area => current_area_obj.translated, :l => 'en')}
+      - I18n.locale = backup
+    %li
+      = link_to(t(:help), help_path)
+
+

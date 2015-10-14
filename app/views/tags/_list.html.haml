@@ -1,0 +1,79 @@
+-# This need to be REFACTORED!
+-# Variables:
+-#
+-# :group       :unfiltered/:filtered/:post
+-# :group_data  List of tags ids of hash with tags ids and quantities
+-# :type        Horizontal/Vertical
+-#
+
+-# @preloaded                ||= {}
+-# @preloaded[:translations] ||= {}
+-# @preloaded[:names]        ||= {}
+-# @preloaded[:levels]       ||= {}
+=# debug @preloaded[:translations]
+- stopw.take_time("views/tags/_list: START")
+- tag_ids = group_data.keys if group_data.is_a? Hash
+- tag_ids = group_data if group_data.is_a? Array
+-if tag_ids 
+  %ul{:class => "tag_#{type}"}
+    - issue_country_name = nil
+    - issue_country_name_translated = nil
+    - if group.to_s =~ /issue/
+      - tag_ids.each do |tag_id|
+        - if @preloaded[:levels][tag_id].to_i == 2
+          - issue_country_name = @preloaded[:names][tag_id]
+          - issue_country_name_translated =  @preloaded[:translations][tag_id] || @preloaded[:names][tag_id] || "Name does not exsist"
+    - tag_ids.each do |tag_id|
+      - translated  = @preloaded[:translations][tag_id] || @preloaded[:names][tag_id] || "Name does not exsist"
+      - name_for_display = Tag.name_for_display(translated)
+      - name_for_url     = Tag.name_for_url(translated)
+      - level            = @preloaded[:levels][tag_id]
+      - name             = @preloaded[:names][tag_id]
+      - if group.to_s =~ /issue/ and (not level.blank?)
+        - if level.to_i == 5 and current_area_obj.level.to_i < 5
+        - else
+          - next
+      %li
+        .tag
+          - href = @uri_current_all
+          - if level == 2
+            %div{:class => "flag #{Util.from_country_to_two_letter_code(name.downcase)}"}
+          - if group.to_s =~ /issue/ and current_area_obj.level.to_i < 2 and (not level.blank?)
+            %div{:class => "flag #{Util.from_country_to_two_letter_code(issue_country_name.downcase)}"}
+            - name_for_display += " - " + issue_country_name_translated
+          - if group =~ /unfiltered/
+            - if level.blank?
+              -# NONGEO - Should remove filter, and make area = world and add this nongeo tag
+              - href = @uri_world + "/" + name_for_url
+            - else  
+              -# GEO - Should remove filter and add this geo tag
+              - href = "/" + name_for_url
+          - else # FILTERED or #ISSUE
+            - if level.blank?
+              -# NONGEO - Should keep the filter and add this nongeo tag. If the filter already
+              -# exsits, I shold remove it and transform the link to delete link
+              - if href =~ /\/#{name_for_url}/
+                - href = href.gsub(/\/#{name_for_url}/,  "")
+                - name_for_display = "<span style='color: brown; padding: 0px'>X</span> ".html_safe + name_for_display
+              - else
+                - href += "/" + name_for_url.to_s
+            - else
+              -# GEO - Should keep the filter and change area to this area tag
+              -# To do this I replace the second entry in http://domaon/:website/:area
+              - if group.to_s =~ /issue/
+              - else
+              - href = href.gsub(/^\/([^\/]+)\/[^\/]+/, '/\1/' + name_for_url)
+          - unless supported_cookies?
+            - href += "?l=#{I18n.locale}"
+          -if href == @uri_current_all
+            #{name_for_display}
+          -else
+            %a{:href => href.html_safe} #{name_for_display}
+          - if group_data.is_a? Hash
+            -# Add the quantity
+            %span
+              #{group_data[tag_id]}
+        - if type == :vertical
+          .clr
+- stopw.take_time("views/tags/_list: END")
+

@@ -1,0 +1,13 @@
+-# Enter a list of Post ids
+%h2 #{title} [#{posts_ids.size}]
+- if posts_ids.size == 0
+  %i
+    Empty
+- else
+  - posts = Post.limit(2).visible.where(:id => posts_ids).order("created_at DESC")
+  - posts.each do |post|
+    = post.translated_title
+    %br
+  - if posts_ids.size > 2
+    = link_to("more...", :type => type)
+

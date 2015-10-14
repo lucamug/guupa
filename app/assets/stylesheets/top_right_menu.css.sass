@@ -1,0 +1,95 @@
+@import compass/css3 
+
+$guu_color: #f4b056
+$pa_color:  #fff2cc
+
+$dark_blue: #1e3d5a
+$back_blue: #3d6b99
+
+$button_color: $back_blue
+$button_hover: darken($back_blue, 5%)
+$shadow:  darken($dark_blue, 50%)
+$text_color: $pa_color
+$text_hover: $guu_color
+
+
+#jsddm_original
+  margin: 0
+  padding: 0
+  li
+    float: left
+    list-style: none
+    font: 12px Tahoma, Arial
+    a
+      display: block
+      background: #20548E
+      padding: 5px 12px
+      text-decoration: none
+      border-right: 1px solid white
+      width: 70px
+      color: #EAFFED
+      white-space: nowrap
+    a:hover
+      background: #1A4473
+    ul
+      margin: 0
+      padding: 0
+      position: absolute
+      visibility: hidden
+      border-top: 1px solid white
+      li
+        float: none
+        display: inline
+        a
+          width: auto
+          background: #9F1B1B
+        a:hover
+          background: #7F1616
+
+#jsddm
+  margin: 0
+  padding: 0
+  li
+    margin-left: 10px
+    padding: 0
+    float: left
+    list-style: none
+    border: 0px solid $shadow
+    @include border-radius(8px)
+    background: $button_color
+    a
+      display: block
+      padding: 1px 20px
+      text-decoration: none
+      white-space: nowrap
+      color: $text_color
+      -webkit-border-radius: 8px
+      -moz-border-radius: 8px
+      border-radius: 8px
+    a:link
+      color: $text_color
+    a:visited
+      color: $text_color
+    a:hover
+      color: $text_hover
+      background: $button_hover
+    ul
+      margin: 0
+      padding: 0
+      margin-top: 5px
+      @include border-radius(8px)
+      background: $button_color
+      position: absolute
+      right: 0
+      visibility: hidden
+      z-index: 1000  // To avoid going below google maps
+      li
+        margin: 0
+        padding: 0
+        border: 0px
+        float: none
+        display: inline
+        a
+          @include border-radius(8px)
+          padding: 1px 10px
+          width: auto

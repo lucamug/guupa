@@ -1,0 +1,30 @@
+#class FakeUser
+#  def self.username
+#    'admin'
+#  end
+#
+#  def self.email
+#    'admin@admin.com'
+#  end
+#end
+#
+#RailsAdmin.config do |config|
+#  config.current_user_method do
+#    authenticate_or_request_with_http_basic do |username, password|
+#      username == "gamesadmin" && password == "admingames"
+#    end
+#    FakeUser
+#  end
+#  config.main_app_name { ['Recommended Games', 'Admin'] }
+#  config.authenticate_with{}
+#end
+
+RailsAdmin.config do |config|
+  config.authorize_with :cancan
+  config.current_user_method do
+    current_user
+  end
+  config.audit_with :paper_trail, User
+  # config.main_app_name { ['Recommended Games', 'Admin'] }
+  # config.authenticate_with{}
+end

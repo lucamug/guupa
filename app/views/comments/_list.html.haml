@@ -1,0 +1,36 @@
+- comments = post.comments.visible
+-# if comments.size > 0
+%h3{:style => "clear: both; margin: 10px; padding-top: 20px"}
+  = t(:history)
+  =# t(:comments, :count => comments.size)
+%ul{:style => "clear: both; padding-left: 50px; margin: 0px; margin-bottom: 4px"}
+  %li
+    = t(:CREATED).html_safe
+    %span{:style => "color: gray"}
+      =" - "
+      - if post.user.guest?
+        #{post.user.username_for_display}
+      - else
+        #{link_to(post.user.username_for_display, user_path(post.user_id))}
+      #{time_ago_in_words(post.created_at)} #{t :ago}
+  - comments.each do |comment|
+    %li{:style => "margin: 0px; padding: 2px;"}
+      - if comment.body == ":OPEN"
+        = t(:OPEN).html_safe
+      - elsif comment.body == ":CLOSE"
+        = t(:CLOSE).html_safe
+      - else
+        = comment.body
+      %span{:style => "color: gray"}
+        =" - "
+        - if comment.user.guest?
+          #{comment.user.username_for_display}
+        - else
+          #{link_to(comment.user.username_for_display, user_path(comment.user_id))}
+        #{time_ago_in_words(comment.created_at)} #{t :ago}
+        -#  (#{I18n.localize(comment.created_at, :format => :short)})
+      - if can? :update, comment
+        = link_to image_tag("icons/pencil_gray_s.png"),    my_edit_path(comment)
+        -# #{link_to image_tag("/icons/destroy_icon_small.png"), destroy_path(comment)}
+        = link_to image_tag("icons/trash_gray_s.png"), comment_path(comment), :confirm => t(:are_you_sure_you_want_to_remove_this_comment), :method => :delete
+= render :partial => "/comments/form", :locals => {:comment  => post.comments.new} 

@@ -1,0 +1,8 @@
+- if item.errors.any?
+  #errorExplanation
+    %p{:style => "margin: 10px; font-weight: bold"}
+      = t(:the_form_has_errors)
+      = t(:errors_messages, :count => item.errors.size).downcase
+    %ul{:style => "margin: 10px; color: #e48200"}
+      - item.errors.full_messages.each do |msg|
+        %li= msg

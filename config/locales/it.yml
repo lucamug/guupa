@@ -1,0 +1,396 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+it:
+  open_problem: Problema ancora irrisolto.
+  closed_problem: Problema risolto.
+  changin_status_to_post_open: Motivi della riapertura di questo problema
+  changin_status_to_post_close: Motivi della chiusura di questo problema
+  by: di
+  problem_is_there_again: Il problema è tornato di nuovo!
+  problem_solved: Adesso è stato risolto!
+  CREATED: "IL PROBLEMA &Egrave; STATO CREATO"
+  OPEN: "IL PROBLEMA &Egrave; STATO RIAPERTO"
+  CLOSE: "IL PROBLEMA &Egrave; STATO CHIUSO"
+  history: Cronologia
+  open_closed: Risolti / Irrisolti
+  details: dettagli
+  how_it_works:  Come funziona
+  step_1_title:  Denuncia un problema
+  step_1_detail: Spiega il problema che c'è nella tua zona. Aggiungi foto e localizzalo sulla cartina. Dare visibilità e trasparenza al problema è gia un passo avanti verso la sua soluzione.
+  step_2_title:  Fatti aiutare
+  step_2_detail: Altri possono avere delle buone idee per risolvere il problema e possono anche offrirsi volontari per aiutarti. Verifica le idee proposte e vota quelle che ritieni le migliori.
+  step_3_title:  Risolvi il problema
+  step_3_detail: Mettiti in contatto con i volontari ed insieme cercate di risolvere il problema. Fate sapere agli altri cosa state facendo aggiornando lo stato del problema con i commenti. Chiudi il problema quando viene risolto.
+  step_4_title:  Inspira gli altri
+  step_4_detail: Dopo che il problema è stato risolto, la tua esperienza rimarrà sul sito per aiutare gli altri a risolvere velocemente problemi simili.
+  extra_step:    Non sei a conoscenza di nessuno problema ma hai delle buone idee e del tempo libero? Cerca nel sito delle iniziative vicino a casa alle quali puoi contribuire!
+  removed: rimosso
+  share_on_facebook: Condividi su Facebook
+  share_on_twitter: Condividi su Twitter
+  share_on_google: Condividi su Google+
+  motto: Condividi e realizza le tue idee!
+  introduction: Spiegaci cosa potrebbe essere migliorato nella tua zona, confrontati con gli altri e trova soluzioni a piccoli e grandi problemi. Diamoci da fare, insieme possiamo migliorare il mondo in cui viviamo!
+  there_is_a_problem_end: c'è un problema e...
+  how_would_you_solve_this_issue: "Come risolveresti questo problema di %{area}? Dettagli:"
+  at: su
+  meta_content: "Condividi e realizza le tue le idee %{area}! Guupa ti aiuta a trovare delle buone idee per risolvere i problemi insieme agli altri."
+  the_guupa_team: "Il team di Guupa"
+  share_ideas_and_get_things_done: Condividi e realizza le tue le idee!
+
+  problem_updated: Problema aggiornato
+  definitions: Definizioni
+  profile_deleted: Profilo cancellato!
+  this_user_has_been_deleted: Questo utente è stato cancellato.
+  this_user_action: "Le azioni di %{username}"
+  i_have_a_new_idea: Ho un'idea!
+  i_have_a_new_problem: C'è un problema!
+  are_you_sure_you_want_to_remove_this_comment: Sei sicuro che vuoi rimuovere questo commento?
+  you_are_not_authorized: "Non sei autorizzato." # Azione: %{action} Soggetto: %{subject}"
+  unable_to_send_messages: Non puoi mandare messaggi se non sei un utente registrato ed hai confermato la tua email.
+  old_email: Vecchia Email
+  edit_email: Cambia l'email
+  updated: Aggiornato
+  created: Creato
+  email: email
+  language: Lingua
+  old_password_not_valid: La vecchia Password non è valida
+  password_not_valid: La Password non è valida
+  password_updated: Password Cambiata
+  edit_password: Cambia la password
+  access_denied: Accesso Negato
+  you_cannot_access_this_page_if_you_are_not_registered: Non puoi accedere a quella pagina senza essere un utente registrato.
+
+  user: Utente
+  temporary: Temporaneo
+  you_are_temporary_now: Email Temporanea aggiornata
+  
+  add_email_and_became_a_temporary_user: Aggiorna la tua email temporanea
+  sign_in_as_registered_user: Accedi come utente nuovo o già registrato
+  not_available: Non disponibile
+
+  idea: Idea
+  help_idea_meaning: "L'\"Idea\" è una soluzione che pensi possa risolvere un certo problema."
+  help_idea_how: "Per creare una nuova idea premi sul pulsante \"Ho un'Idea!\" nella home page oppure trova il problema che la tua idea si propone di risolvere e premi \"Ho un'idea anche io!\". Se il problema che la tua idea si propone di risolvere non è ancora stato creato, dovrai farlo tu. Questo consentirà anche agli altri di contribuire successivamente con le loro idee."
+
+  problem: Problema
+  help_problem_meaning: "Il \"Problema\" può essere un servizio non funzionante, una infrastruttura danneggiata, un luogo con delle magagne, un grattacapo, un dilemma. Qualunque cosa che possa essere risolto con una buona ideae che sia legato in qualche maniera al territorio."
+  help_problem_how: "Per creare un nuovo problema premi sul pulsante \"Cerco un'Idea!\" nella home page. Spiega quindi agli altri il problema, manda delle foto se ne hai, indica sulla mappa il luogo del problema e aspetta finchè qualcuno ti proporrà delle idee."
+
+  volunteering: Volontariato
+  help_volunteering_meaning: "Farsi volontario vuol dire che si condivide in linea generale quella idea e si è disponibili ad aiutare nel caso venga intrapresa qualche iniziativa. Vuole inoltre dire che si ricevono via email nuovi commenti di altri utenti ed eventuali aggiornamenti. Essere volontario non è un obbligo a partecipiare ad eventuali iniziative ed è possibilie cancellarsi in ogni momento cliccando di nuovo sull'icona della mano aperta."
+  help_volunteering_how: "Per offrirti voluntaria/o per un'idea, devi cliccare sotto l'icona della mano aperta."
+
+  comment: Commento
+  help_comment_meaning: "Usa i commenti per esprimere la tua opinione riguardo alle idee e ai problemi pubblicati. Se il tuo commento si discosta completamente dall'idea proposta considera la possibilità di creare una idea tu stessa/o."
+  help_comment_how: "Commenta le Idee e i Problemi utilizzando il campo presente nella pagina dei dettagli."
+
+  liked_idea: Idea piaciuta
+  help_liked_idea_meaning: "Mostra agli altri quando ritieni valida una certa idea. Sarà di aiuto nella eventualità che una delle idee da mettere in pratica venga scelta."
+  help_liked_idea_how: "Clicca sotto l'icona \"pollice sù\" nella pagina dell'idea."
+
+  important_problem: Problema importante
+  help_important_problem_meaning: "Se ritieni che un certo problema sia più importante di altri, selezionandolo lo porterai più in alto nella scala delle priorità."
+  help_important_problem_how: "Clicca sotto l'icona col punto escalamativo nella pagina del problema."
+
+  inappropriate_post: Contenuto inopportuno
+  help_inappropriate_post_meaning: "Se ritieni che il contenuto sia offensivo o inappropriato segnalalo. Contribuirai a ripulire e rendere più piacevole il sito."
+  help_inappropriate_post_how: "Clicca sotto l'icona della bandierina."
+
+  visited_post: Visited Post 
+  help_visited_post_meaning: "Questa è la lista dei contenuti che hai visitato, così potrai facilmente tornare su pagine interessanti che hai visitato in passato."
+  help_visited_post_how: "Semplicemente visitando un problema, questo apparirà nella tua lista dei problemi visitati."
+
+  registering_as_new_user_you_accept_the: Registrandoti come utente nuovo accetti la
+  privacy_policy: Politica sulla Privacy
+  language_change_to: La lingua è adesso in 
+  it: Italiano
+  en: Inglese
+  to_be_in_contact_with_us: Per domande o informazioni, scrivi a <b>support(at)guupa.com</b>.
+  privacy: Privacy
+  tags_selected: "Argomenti Selezionati:"
+  to_reply_to_this_message: Per rispondere a questo messaggio vai sul sito e rispondi da lì. Non rispondere a questa email perchè nessuno legge questa casella di posta elettronica.
+  guest: Ospite
+  guest_user: Ospite
+  guest_user_explanation: "Da <b>utente ospite</b> puoi aggiungere Idee e Problemi, votarli e commentarli. Tutti i tuoi interventi appariranno come <b>anonimi</b>. Una volta chiuso il browser non sarai in grado di modificare ciò che hai fatto. Il tuo indirizzo ip ed altri tuoi dati verranno memorizzati e potranno essere utilizzati in caso di vandalismi. Se vuoi modificare tutto ciò che hai scritto da utente ospite, devi immettere la tua email e diventare un <b>Utente Temporaneo</b> prima di chiudere il browser."
+  temporary_user: Temporaneo
+  temporary_user_explanation: "Come <b>Utente Temporaneo</b> hai la possibilità di reclamare i tuoi messaggi successimavente, sia che tu sia già registrato oppure che tu intenda farlo in futuro. Questo è un sistema veloce per interagire con il sito. Quando ti registri, ricorda di usare lo stesso indirizzo email che hai usato per diventare un Utente Temporaneo. Fino a che non li hai reclamati, i tuoi contributi appaiono come <b>Anonimi</b>. Non ci sono limiti di tempo per reclamare i tuoi contributi."
+
+  subscribed_user: Registrato
+  subscribed_user_explanation: "Come utente registrato hai la possibilità di mandare nuove idee, nuovi problemi e di commentare su idee e commenti degli altri. I tuoi interventi saranno collegati alla tua pagina personale attraverso il tuo name utente (username)"
+
+  save_the_problem: Salva il Problema
+  save_the_idea: Salva l'Idea
+  problem_created: Il Problema è stato creato
+  idea_created: L'Idea è stato creata
+  the_form_has_errors: Il form contiene
+  the_user_cannot_log_in: L'utente non può accedere.
+  the_user_has_not_been_created: L'utente non è stato creato.
+  the_message_has_not_been_sent: Il messaggio non è stato inviato.
+  wrong_token: Chiave non valida
+  message_sent: Messaggio Inviato
+  send_message: Invia Messaggio
+  user_signed_in: Connesso!
+  to_reset_your_password: Per cambiare la tua password, vai all'indirizzo qui sotto.
+  to_confirm_your_email_address: Per confermare il tuo indirizzo email, vai all'indirizzo qui sotto.
+  are_you_sure_to_delete_your_profile: Sei sicuro di voler cancellare il tuo profilo? Questa azione non è reversibile.
+  delete_your_profile: Cancella il tuo profilo
+  new_email_confirmation_sent: Mandato nuovamente il link per la conferma della Email
+  new_email_confirmation: Manda nuovamente il link per la conferma della Email
+  email_confirmation: Conferma della Email
+  subject_email_confirmation:     "[GuuPa.com] Conferma della Email"
+  subject_password_reset:         "[GuuPa.com] Azzeramento della Password"
+  subject_you_received_a_message: "[GuuPa.com] Hai ricevuto un Messaggio"
+  email_confirmed: Email Confermata
+  email_not_confirmed: "Email <span style='color: red'>NON</span> Confermata"
+  password_has_been_reset: La password è stata cambiata
+  password_does_not_match_confirmation: Il codice per cambiare la password non è corretto
+  reset_password: Azzera la Password
+  update_password: Cambia la Password
+  invalid_email_or_password: Email o password non corretti
+  email_updated: Email cambiata! Controlla la tua posta elettronica per vedere se hai ricevuto un messaggio. In caso contrario verifica che tu abbia inserito correttamente l'indirizzo email.  
+  user_created_and_signed_in: Utente Creato e Connesso! Controlla la tua posta elettronica per vedere se hai ricevuto un messaggio. In caso contrario verifica che tu abbia inserito correttamente l'indirizzo email. 
+  signed_in: Connesso!
+  email_sent_with_password_reset_instructions: Email spedita con le istruzioni per cambiare la password
+  password_reset_has_expired: Il link per cambiare la password è scaduto
+  password_has_been_reset: La password è stata cambiata
+  email_sent: Email spedita
+  forgot_password: Hai dimenticato la password?
+  edit_profile: Cambia il profilo
+  cookies_error: Errore con i Cookie HTTP!
+  activate_your_cookies_to_use_the_site: I tuoi Cookie HTTP sembrano disattivati.<br />Devi attivare i Cookie per accedere a molte delle funzionalità di questo sito.<br />Leggi <a href="http://support.google.com/accounts/bin/answer.py?hl=it&answer=61416">come si possono attivare</a>.
+  cookies_error_for_javascript_alert: Errore con i Cookie HTTP! I tuoi Cookie HTTP sembrano disattivati. Devi attivare i Cookie per accedere a molte delle funzionalità di questo sito.
+  sent_messages: Messaggi Inviati
+  received_messages: Messaggi Ricevuti
+  signed_out: Sei Uscito!
+  signed_out_from_all: Sei Uscito da tutte le connessioni!
+  sign_out: Esci
+  sign_out_from_all: Esci da tutte le connessioni
+  offered_volunteer_for: Ti sei offerta(o) volontaria(o) per
+  you_had: Hai avuto
+  you_proposed: Hai posto
+  you_made: Hai fatto
+  none: Nessuna/o
+  send: Invia
+  to: per
+  new_message: Nuovo Messaggio
+  send_a_message: Manda un messaggio
+  i_have_one: Ne ho una io!
+  importance: Priorità
+  volunteers: Volontari
+  because: perchè
+  and_nobody_got_an_idea_yet: e non ci sono idee
+  good_idea: Voti
+  change_area: Cambia Area
+  sign_in: Accedi
+  existing_user: Utente Già Registrato
+  new_user: Utente Nuovo
+  form_is_invalid:     Il form contiene degli errori
+  choose_a_password:   Scegli una password
+  re_enter_password:   Reinserisci la password
+  re_enter_email:      Reinserisci l'email
+  create_a_new_user_and_sign_in: Registrati ed Accedi
+  i_have_a_new_idea_too: Ho un'idea anche io!
+  most_viewed: Più viste
+  newer: Più nuove
+  most_liked: Più apprezzate
+  by_tag: Argomenti
+  by_region: Aree
+  find: Trova
+  click_on_the_map_or_type_an_address_above_and_click_find: Click sulla Mappa sotto oppure scrivi un indirizzo sopra e premi <b>Trova!</b>
+  i_need_an_idea_this_is_the_problem: Cerco un'idea. Questo è il problema...
+  step_1_the_problem: Il problema
+  step_2_the_idea: L'idea
+  explain_the_problem: Spiega <b>in questa pagina il problema</b> che la tua idea si propone di risolvere.<br />Poi <b>Salva</b> e parla della tua <b>idea nella pagina successiva</b>.
+  of_the_problem: del Problema
+  of_the_idea: dell'Idea
+  new_idea_for_this_problem: Nuova Idea
+  no_items_found: Non ci sono idee ancora!
+  no_ideas_yet: Nessun idea ancora su come risolvere questo problema
+  your_actions:  Le tue azioni
+  your_messages: I tuoi messaggi
+  you_cannot_volunteer_unless_you_register: Non puoi offrirti volontario finchè non diventi un utente registrato e confermi la tua email.
+  created_by: Creato da
+  written_by: Scritto da
+  ago: fa
+  temporary_email: Email
+  type_your_email_if_you_would_like_to_edit: Email, se vuoi modificare questo commento in futuro
+  write_a_comment: Aggiungi un commento
+  anonymous: Anonimo
+  votes: Voti
+  views: Visite
+  about: "About"
+  help: Come funziona
+  contact: "Contatti"
+
+  voting:
+    is_not_important: "Non è\nimportante"
+    is_important: "È\nimportante"
+    important: "Importante"
+    i_dont_like: "Non mi\npiace più"
+    i_like: "Mi piace"
+    like: "Mi piace"
+    i_dont_volunteer: "Non\nmi offro\nvolontario"
+    i_volunteer: "Mi offro\nvolontario"
+    volunteer: "Volontario"
+    is_uncostructive: "Intervento\ninopportuno"
+    is_costructive: "Intervento\nopportuno"
+    uncostructive: "Inopportuno"
+
+  counter:
+    importance:
+      zero: Import.
+      one: Import.
+      other: Import.
+    views:
+      zero: Visite
+      one: Visita
+      other: Visite
+    ideas:
+      zero: Idee
+      one: Idea
+      other: Idee
+    volunteers:
+      zero: Volontari
+      one: Volontario
+      other: Volontari
+    votes:
+      zero: Voti
+      one: Voto
+      other: Voti
+
+  comment_this_has_been_renamed:
+    created: Commento Creato
+    create: Crea Commento
+  unauthorized:
+      manage:
+        all: "Not authorized to %{action} %{subject}."
+        user: "Not allowed to manage other user accounts."
+      update:
+        project: "Not allowed to update this project."
+
+  you_offered_volunteer_for_ideas:
+    zero: Ancora non offerta(o) volontaria(o) per nessuna idea
+    one: Offerta(o) volontaria(o) per un'idea
+    other: "Offerta(o) volontaria(o) per %{count} idee"
+  you_had_ideas:
+    zero: Ancora nessuna idea
+    one: Un'idea
+    other: "%{count} idee"
+  you_proposed_problems:
+    zero: Ancora nessun problema
+    one: Un problema
+    other: "%{count} problemi"
+  you_made_comments:
+    zero: Ancora nessun commento
+    one: Un commento
+    other: "%{count} commenti"
+  you_liked_ideas:
+    zero: Ancora non è piaciuta nessuna idea
+    one: Piaciuta un'idea
+    other: "Piaciute %{count} idee"
+  you_consider_important_problems:
+    zero: Ancora non considerato importante nessun problema
+    one: Considerato importante un problema
+    other: "Considerato importante %{count} problemi"
+
+  errors_messages:
+    zero: Nessun Errore
+    one: Un Errore
+    other: "%{count} Errori"
+  messages:
+    zero: Nessun Messaggio
+    one: Un Messaggio
+    other: "%{count} Messaggi"
+  messages_no_count:
+    zero: Messaggi
+    one: Messaggio
+    other: Messaggi
+  users:
+    zero: Nessun Utente
+    one: Un Utente
+    other: "%{count} Utenti"
+  ideas:
+    zero: Nessuna Idea
+    one: Un'Idea
+    other: "%{count} Idee"
+  problems:
+    zero: Nessun Problema
+    one: Un Problema
+    other: "%{count} Problemi"
+  comments:
+    zero: Nessun Commento
+    one: Un Commento
+    other: "%{count} Commenti"
+  
+  home:
+    name: Home
+  titles:
+    connections:
+      new:     Sign in
+      index:   Connections
+    ideas:
+      index:   Ideas
+      new:     New Idea
+      show:    Idea
+    pages:
+      home:    Home
+      about:   About
+      help:    Help
+      contact: Contact
+      documentation: Documentation
+    votes:
+      index:   Votes
+    tags:
+      index:   Tags
+
+  edit:
+    issue: Edit
+    idea:  Idea
+    comment:  Cambia
+
+  activerecord:
+    # errors:
+    #   messages:
+    #     <<: *errors_messages
+    #   template:
+    #     <<: *errors_template
+    #   full_messages:
+    #     format: "%{attribute} %{message}"
+    models:
+      comment: Commento
+    attributes:
+     message:
+      body: Il corpo del messaggio
+     post:
+       title: Breve descrizione
+       description: Dettagli
+       tag_names: Etichette
+       attachments: Immagini
+       location: Luogo
+       address_by_user: Indirizzo
+       map_data: Mappa
+     comment:
+       comment: Commento
+     user:
+       old_password: Vecchia Password
+       new_password: Nuova Password
+       new_email: Nuova Email
+       encrypted_email: Email
+
+        
+  will_paginate:
+    previous_label: "&#8592; Precedente"
+    next_label: "Successivo &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page:
+        zero:  "Nessuno"
+        one:   "Tutti (1)"
+        other: "Tutti (%{count})"
+      single_page_html:
+        zero:  "Nessuno"
+        one:   "<b>Tutti (1)</b>"
+        other: "<b>Tutti (%{count})</b>"
+      multi_page: "%{from} - %{to} di %{count}"
+      multi_page_html: "<b>%{from}&nbsp;-&nbsp;%{to}</b> di <b>%{count}</b>"

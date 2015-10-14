@@ -1,0 +1,6 @@
+a = Issue.new(:title => "a", :description => "b");a.prepare_for_editing;a.tag_names = "ciao, mamma";a.save!
+Tag.current_website_id = 1;a = Tag.find_by_clean_name("united kingdom"); "#{a.name} #{a.counted} -> #{a.counted([Tag.find_by_clean_name("y:1986")])}"
+Issue.load_and_cache_issues[0].tags.map{|q| "#{q.id} #{q.translated} #{q.counted}"}
+
+
+# Issue.find(:all, :joins => :tagging, :conditions => { :taggings => { :tag_id => 62 } })

@@ -1,0 +1,71 @@
+-# %ol
+-#   %li uri_current_escaped   [#{URI.unescape @uri_current_area}]
+-#   %li uri_current_all       [#{URI.unescape @uri_current_all}]
+-#   %li uri_world             [#{URI.unescape @uri_world}]
+
+
+-# - p = Post.paginate(:page => 1)
+-# = debug p
+-# = will_paginate p
+#uri_current_area{:style => "display: none"}= @uri_current_area
+- stopw.take_time("view: Posts#index: START")
+.two-col
+  .header
+    #left_column
+      =# %div= @facebook_button
+      - if tag_groups[:nongeo_path].size > 0
+        .tags_selected{:style => "padding-bottom: 40px; padding-top: 10px"}
+          %span{:style => "float: left; padding-right: 10px"}
+            = t :tags_selected
+          = render :partial => "tags/list",  :locals => {:group => :nongeo_path, :group_data => tag_groups[:nongeo_path], :type => :horizontal}
+      .clr
+      - if items.size > 0
+        - items.each do |item|
+          - vote       = vote_objs_by_post_id[item.id] if vote_objs_by_post_id # User can be not logged in
+          - attachment = attachment_objs_by_post_id[item.id]
+          - tag_ids    = tag_ids_by_paged_posts[item.id]
+          = render :partial => "line", :locals => {:post => item, :vote => vote, :attachment => attachment, :tag_ids => tag_ids}
+        #{page_entries_info items} &nbsp; &nbsp; #{will_paginate items} 
+        .clr &nbsp;
+        -# = link_to_unless_current(t(:most_viewed), :order_by => "views")
+        -# &nbsp;
+        -# = link_to_unless_current(t(:newer), :order_by => "created")
+        -# &nbsp;
+        -# = link_to_unless_current(t(:most_liked), :order_by => "voted")
+        -# .clr &nbsp;
+      - else
+        %h1{:style => "margin-top: 160px; margin-bottom: 160px; text-align: center"}
+          = t :no_items_found
+    #right_column
+      = render :partial => "layouts/how_it_works_small"
+      - if current_website_id == 1
+      - elsif current_website_id == 2
+        =link_to t('i_have_a_new_problem'), new_post_path,        :class => "big_button"
+        =link_to ("<div style='font-size: 60%; font-family: arial'>" + t('there_is_a_problem_end') + "</div>").html_safe + t('i_have_a_new_idea'),    new_idea_step_1_path, :class => "big_button"
+      - @refines.each do |refine|
+        - if refine[:data].keys.size > 0
+          %h3 #{refine[:name]}
+          = render :partial => "tags/list",  :locals => {:group => :filtered, :group_data => refine[:data], :type => :vertical}
+      .clr
+      - if tag_groups[:all_unfiltered]
+        %h2 Start a new filter
+        = render :partial => "tags/list",  :locals => {:group => :all_unfiltered, :group_data => tag_groups[:all_unfiltered], :type => :vertical}
+        .clr
+    %span{:style => "float: left", :class => "h3_stlye clr"}
+      = t :change_area
+      &nbsp;
+    = render :partial => "tags/list",  :locals => {:group => :geo_path,    :group_data => tag_groups[:geo_path],    :type => :horizontal}
+
+- stopw.take_time("view: Posts#index: END")
+
+-#      - current_area.cache_translations_and_quantities_of_self_and_ancestors_and_children
+-#      Years:
+-#      - years = Tag.order_by(Tag.list_of_nongeo_tags, :alpha, /\d{4}/)      
+-#      = render :partial => "tags/list", :locals => {:type => :vertical, :tags => years}
+-#      Type:
+-#      - others = Tag.order_by(Tag.list_of_nongeo_tags, :alpha, //, years)      
+-#      = render :partial => "tags/list", :locals => {:type => :vertical, :tags => others}
+-#      - if current_area.cached_children.size > 0
+-#        Geo-sub:
+-#        = render :partial => "tags/list", :locals => {:type => :vertical, :tags => Tag.order_by(current_area.cached_children, :quantity)}
+

@@ -1,0 +1,12 @@
+%table{:border => "1px"}
+  - @comments.each do |comment|
+    %tr
+      %td= comment.id
+      %td= comment.body
+      %td= comment.created_at
+      %td= comment.status
+      %td
+        - if can? :update, comment
+          = link_to image_tag("icons/pencil_gray_s.png"), my_edit_path(comment)
+          = link_to image_tag("icons/trash_gray_s.png"),  comment_path(comment), :confirm => t(:are_you_sure_you_want_to_remove_this_comment), :method => :delete
+      

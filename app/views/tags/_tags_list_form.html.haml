@@ -1,0 +1,6 @@
+- tags = []
+- item.tags.each {|tag| tags.push(tag.translated)}
+- item.tag_names = tags.join(", ")
+= form.input :tag_names, :label => 'Tags', :placeholder => "Comma separated tags"
+
+

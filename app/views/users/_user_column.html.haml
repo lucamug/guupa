@@ -1,0 +1,95 @@
+-# Input varialbes:
+-#
+-# user
+-#
+- votes2 = Vote.all_votes_for_the_user(:website_id => current_website_id, :user_id => user.id)
+- if current_user_id == user.id
+  - if current_user_is_guest?
+    %h2
+      = t :guest_user
+    %p
+      = t(:guest_user_explanation).html_safe
+    %ul
+      %li= link_to_unless_current t(:add_email_and_became_a_temporary_user), to_temporary_path(current_user_obj) 
+      %li= link_to_unless_current t(:sign_in_as_registered_user), sign_in_path
+  - if current_user_is_temporary?
+    %h2
+      = t :temporary_user
+    %p
+      email
+      %b
+        =user.temporary_email
+    %p
+      = t(:temporary_user_explanation).html_safe
+    %ul
+      %li= link_to_unless_current t(:edit_email), to_temporary_path(current_user_obj) 
+      %li= link_to t(:sign_out), sign_out_path
+  - elsif current_user_is_registered?
+    %h2
+      =user.username_for_display
+    = gravatar_image_tag(user.email.downcase, :alt => user.username_for_display, :gravatar => { :size => 128 })
+    %table{:style => "padding-top: 20px"}
+      %tr
+        %td
+          = t(:email).downcase
+        %td
+          %b
+            =user.email
+      %tr
+        %td
+          = t(:language).downcase
+        %td
+          %b
+            = t(user.locale)
+      %tr
+        %td
+          = t(:created).downcase
+        %td
+          %b
+            #{time_ago_in_words(user.created_at)} #{t :ago}
+      %tr
+        %td
+          = t(:updated).downcase
+        %td
+          %b
+            #{time_ago_in_words(user.updated_at)} #{t :ago}
+    %ul
+      %li= link_to_unless_current( t(:your_actions), user_path(user) )
+      %li= link_to_unless_current( t(:your_messages), messages_path )
+      -# %li= link_to_unless_current( t(:edit_profile), my_edit_path(user) )
+      %li= link_to_unless_current( t(:edit_password), edit_user_password_path(user) )
+      %li= link_to_unless_current( t(:edit_email), edit_user_email_path(user) )
+      %li= link_to t(:sign_out), sign_out_path
+      -# %li= link_to t(:sign_out_from_all), sign_out_all_path
+      - if user.email_confirmed
+        %li= t(:email_confirmed)
+      - else
+        %li= t(:email_not_confirmed).html_safe
+        %li= link_to t(:new_email_confirmation), new_email_confirmation_path
+    = button_to t(:delete_your_profile), user_path(user), :method => :delete, :confirm => t(:are_you_sure_to_delete_your_profile)
+
+    -# %h2
+    -#   Connections
+    -# - user.connections.order("created_at DESC").where(:active => true).each do |connection|
+    -#   %p
+    -#     ip
+    -#     %b
+    -#       #{connection.ip}
+    -#       #{session[:session_id] == connection.session_id ? "(*)" : ""}
+    -#     %br
+    -#     connected
+    -#     %b #{time_ago_in_words(connection.created_at)} ago
+    -# %p (*) = In use now.
+- else
+  %h2
+    =user.username_for_display
+  = gravatar_image_tag(user.email.downcase, :alt => user.username_for_display, :gravatar => { :size => 128 })
+  %p
+    - if can? :send, Message
+      = link_to( t(:send_a_message), new_message_path(:token => user.messages_token))
+    - else
+      = t(:send_a_message)
+      %p
+        = t(:unable_to_send_a_message, :recipient_username => strip_tags(user.username_for_display)).html_safe
+      
+

@@ -1,0 +1,2 @@
+html = "<%= escape_javascript(render(:partial => "line_small_for_infowindow", :locals => {:post => post, :attachment => post.attachments.first, :tag_ids => []})) %>";
+id = 'edit_post_<%= escape_javascript(post.id.to_s) %>';

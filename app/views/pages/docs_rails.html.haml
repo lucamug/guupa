@@ -1,0 +1,38 @@
+Rails Debug
+-----------
+
+chrome://net-internals/ For "live http headers"
+
+## To redirect the log in the console:
+
+Rails.logger = Logger.new(STDOUT)
+ActiveRecord::Base.logger = Logger.new(STDOUT)
+ActionController::Base.logger = Logger.new(STDOUT)
+
+## Other debugging tips
+
+[rails-logging-tips](http://mikenaberezny.com/2007/02/24/rails-logging-tips/)
+
+HAML 
+----
+(haml-control-whitespace-around-text)[http://stackoverflow.com/questions/1311428/haml-control-whitespace-around-text]
+
+Paper clip
+----------
+
+http://thewebfellas.com/blog/2009/8/29/protecting-your-paperclip-downloads
+https://github.com/thoughtbot/paperclip/pull/416
+https://github.com/thoughtbot/paperclip/wiki/Interpolations
+http://www.viget.com/extend/paperclip-custom-interpolation/
+
+Important things to remember
+----------------------------
+
+* To test if variable is empty or nil: blank? (in rails)
+* To esecute something and assign if variable is nil: ||=
+
+Database
+--------
+
+[What's New in Edge Rails: Easy Join Table Conditions](http://ryandaigle.com/articles/2008/7/7/what-s-new-in-edge-rails-easy-join-table-conditions)
+[Good document about index](http://blog.evanweaver.com/2007/02/12/table-indexes-in-rails/)

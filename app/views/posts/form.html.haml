@@ -1,0 +1,162 @@
+- display = "none"
+- display = "block" if show_debug?
+- to_add_to_labels = t :of_the_problem
+- if params[:action] == "new_idea_step_2" or params[:action] == "new_idea"
+  - to_add_to_labels = t :of_the_idea
+-# Paper Clip   https://github.com/thoughtbot/paperclip
+-# Paper Clip   http://railscasts.com/episodes/134-paperclip
+-# Complex form http://railscasts.com/episodes/73-complex-forms-part-1
+-# Virtual attribute http://railscasts.com/episodes/16-virtual-attributes
+-# Virtual attribute http://railscasts.com/episodes/167-more-on-virtual-attributes
+#form_post
+  = render "layouts/error_messages", :item => post
+  -# http://blog.plataformatec.com.br/2010/06/simpleform-forms-made-easy/
+  - if params[:action] == "new_idea_step_1" or params[:action] == "new_idea_step_2"
+    - style_step_1 = ""
+    - style_step_2 = ""
+    - if params[:action] == "new_idea_step_1"
+      - style_step_2 = "color: #ccc"
+    - else
+      - style_step_1 = "color: #ccc"
+    %h1{:style =>"margin: 60px"}
+      %span{:style => style_step_1}
+        = t :step_1_the_problem
+      %span{:style => style_step_2}
+        &rarr;
+      %span{:style => style_step_2}
+        = image_tag("2/logo.png", :style => "vertical-align: middle")
+        = t :step_2_the_idea
+    - if params[:action] == "new_idea_step_1"
+      %p
+        = t(:explain_the_problem).html_safe
+  - elsif params[:action] == "new"
+    %h1{:style =>"margin: 60px"}
+      = t :i_need_an_idea_this_is_the_problem
+  - elsif params[:action] == "new_idea"
+    %h1{:style =>"margin: 60px"}
+      = image_tag("2/logo.png", :style => "vertical-align: middle")
+      = t :new_idea_for_this_problem
+  - elsif params[:action] == "edit"
+    %h2{:style => "margin-bottom: -30px"} Editing
+    %h1 "#{post.title}"
+  - else
+    %p
+      I could not find action #{params[:action]}
+  -# The following div (with id) are used to preset the map in case the user is editing
+  -# a map thas has been saved already.
+
+  #post_map_lat{      :style => "display: #{display}"} #{post.map_lat}
+  #post_map_lng{      :style => "display: #{display}"} #{post.map_lng}
+  #post_map_bounds{   :style => "display: #{display}"} #{post.map_bounds}
+  #post_map_zoom{     :style => "display: #{display}"} #{post.map_zoom}
+  = form_for post, :html => {:multipart => true} do |f|
+    -# This is to determine if this is a "new_idea" action in the save page.
+    -# In that case the page will redirect to the Step 2
+    - if show_debug?
+      %div{:style => "border: 1px solid red; padding: 10px"}
+        from_action:
+        %input{:name => :from_action, :value => params[:action], :type => :text}
+    -else
+      %input{:name => :from_action, :value => params[:action], :type => :hidden}
+    - if the_problem
+      - if show_debug?
+        %div{:style => "border: 1px solid red; padding: 10px"}
+          the_problem:
+          %input{:name => :the_problem, :value => the_problem.id, :type => :text}
+      - else
+        %input{:name => :the_problem, :value => the_problem.id, :type => :hidden}
+    %table
+      - if params[:action] == "new_idea_step_2" or params[:action] == "new_idea"
+        %tr
+          %th= f.label Post.human_attribute_name(:title) + " " + t(:of_the_problem)
+          %td= the_problem.title
+      %tr
+        %th= f.label        Post.human_attribute_name(:title) + " " + to_add_to_labels
+        %td= f.text_field   :title
+      %tr
+        %th= f.label        Post.human_attribute_name(:description) + " " + to_add_to_labels
+        %td= f.text_area    :description
+      - if params[:action] != "new_idea_step_2" && params[:action] != "new_idea"
+        %tr
+          %th= f.label        :tag_names
+          %td= f.text_field   :tag_names
+      %tr
+        %th= f.label :attachments
+        %td= render  :partial => "attachments/form", :locals => {:item => post, :url_format => "post[attachment_attribute][]"}
+      - if params[:action] != "new_idea_step_2" && params[:action] != "new_idea"
+        %tr
+          %th= f.label :location
+          %td
+            = f.label        :address_by_user
+            = f.text_field   :address_by_user
+            %input{:type => "button", :id => "find_button", :value => t(:find) + "!"}
+            #address_from_api
+              - if post.map_address
+                = post.map_address
+              - else
+                = t(:click_on_the_map_or_type_an_address_above_and_click_find).html_safe
+            #map_canvas
+            - if show_debug?
+              %div{:style => "border: 1px solid red; padding: 10px; text-align: left"}
+                Data as returned by Map Api
+                %ul
+                  %li lat, lng
+                  %li b = boundary (at the moment of marking it)
+                  %li z = zoom (at the moment of marking it)
+                  %li c = Country (Level 2)
+                  %li 3-5 = Levels
+                  %li p = postal code
+                  %li a = address
+                = f.text_area :map_data, :style => "width: 96%"
+            -else
+              %div{:style => "display:none"}
+                = f.text_area :map_data
+      - if current_user_is_guest?
+        %tr
+          %th= f.label        :temporary_email
+          %td= f.text_field   :temporary_email
+              
+    - if params[:action] == "new_idea_step_2" || params[:action] == "new_idea"
+      = f.submit :value => t(:save_the_idea)
+    - else
+      = f.submit :value => t(:save_the_problem)
+
+
+
+
+
+
+
+
+
+
+
+
+
+- if show_debug?
+  #documentation{:style => "border: dashed 2px green; margin: 20px; padding: 20px"}
+    :markdown
+      # Documentation
+      
+      
+      Javascript
+      ----------
+      
+      When a user click on the map or drag the marker, the function *codeLatLng* is called.
+      
+      * The function __codeLatLng__ query google map for [Reverse Geocoding](http://code.google.com/apis/maps/documentation/javascript/services.html#ReverseGeocoding)
+      * The function __parse_google_result__ parse the result.
+      * If the address has no errore it is displayed in the DIV __address_from_api__, otherwise the error will go there
+      * The result will go, joined with ";" in __post_map_data__ (This is the one that will also be submitted with the form)
+    
+      ## Address by User Filed
+      
+      Pressing ENTER on this field (ID = __post_address_by_user__) is not submitting the form because the action it is intercepted
+      in this line
+      
+      * $("#post_address_by_user").keypress(function() {return handleEnter(this, event, geocoder, map, marker, first)})
+
+      The pressing of the button __Find!__ (ID = __find_button__) instead is intercepted by this line
+      
+      * $("#find_button").click(             function() {my_geocode(                     geocoder, map, marker, first)})
+

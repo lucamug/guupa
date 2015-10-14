@@ -1,0 +1,16 @@
+=# See this page ofr this section: http://railscasts.com/episodes/73-complex-forms-part-1
+=# class.to_s.downcase
+- item.attachments.not_removed.each do |attachment|
+  .thumb{:style => "width: 100px; border: 0px solid red; text-align: center; background-color: white"}
+    =image_tag attachment.document.url(:thumb)
+    Status: [#{attachment.status}]
+    = fields_for "post[existing_attachment_attributes][]", attachment do |ff|
+      = ff.check_box :remove
+      = ff.label :remove, "Remove"
+- (3 - item.attachments.not_removed.size).times do 
+  = fields_for "post[new_attachment_attributes][]", Attachment.new do |ff|
+    %p= ff.file_field :document
+
+
+
+

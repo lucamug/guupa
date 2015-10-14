@@ -1,0 +1,248 @@
+-# raise @post.inspect
+
+- stopw.take_time("views/layout/application: START") 
+!!!
+- website = Website.new
+- website.id = current_website_id
+
+- titles = website.build_title(:current_area_obj => current_area_obj)
+- title = ""
+- meta_content = ""
+- if @html_title
+  - title = @html_title
+  - meta_content = @html_content
+- else
+  - title = titles[1]
+  - meta_content = t(:meta_content)
+- j = ActiveSupport::JSON
+%html
+  %head
+    = logo_ascii
+    %title=title 
+    %meta{:charset => "UTF-8"}
+    %meta{:name => "description", :content => "#{meta_content}"}
+    -if @og
+      - @og.keys.each do |og|
+        %meta{:content => "#{@og[og]}", :property => "og:#{og}"}  
+    = render 'layouts/stylesheets'
+    =# stylesheet_link_tag 'reset.css'
+    = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag "#{current_website_id}.css", :media => 'screen, projection'
+    %link{:rel => "shortcut icon", :href => "/assets/#{current_website_id}/favicon.png"}
+    = javascript_include_tag :application
+    =# javascript_include_tag params[:controller]
+    = csrf_meta_tag
+    =# stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Slackey&subset=latin-ext,latin'
+    = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext'
+    :javascript
+      function initialize() {}
+    - if params[:controller] == "posts" and params[:action] =~ /new|edit/
+      = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false&language=en" # en! Don't change the language to I18n.locale as below, otherwise the reverse geocoding return in different language and cause trouble because the locations names are not cosnistant.
+      = javascript_include_tag "post_editing" # http://guides.rubyonrails.org/layouts_and_rendering.html#asset-tags
+      = javascript_include_tag "post_editing_shared"
+    - elsif (params[:controller] =~ /posts/ and params[:action] =~ /index/)
+      = stylesheet_link_tag 'flags.css', :media => 'screen, projection'
+      = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false&language=#{I18n.locale}"
+      = javascript_include_tag "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble-compiled.js"
+      = javascript_include_tag "map_controller" # http://guides.rubyonrails.org/layouts_and_rendering.html#asset-tags
+    - elsif (params[:controller] =~ /posts/ and params[:action] =~ /show/)
+      -# Showing the map in a small square in the right column...
+      = stylesheet_link_tag 'flags.css', :media => 'screen, projection'
+      = javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false&language=#{I18n.locale}"
+      = javascript_include_tag "map_for_post_show" # http://guides.rubyonrails.org/layouts_and_rendering.html#asset-tags
+      = stylesheet_link_tag 'prettyPhoto.css'
+      = javascript_include_tag "jquery.prettyPhoto.js"
+      <script type="text/javascript" charset="utf-8">
+      $(document).ready(function(){
+      $("a[rel^='prettyPhoto']").prettyPhoto({
+      default_width: 800,
+      default_height: 600,
+      opacity: 0.50,
+      slideshow: 5000,
+      show_title: false,
+      social_tools: '',
+      autoplay_slideshow: false,
+      counter_separator_label: '/',
+      deeplinking: false
+      });
+      });
+      </script>
+    = stylesheet_link_tag 'top_right_menu', :media => 'screen, projection'
+    = google_analytics_js if Rails.env.production?
+  %body{:onload => "initialize()"}
+    - flash.each do |name, msg|
+      %div{:class => "flash#{name}", :style => "background-color: #FF9C18; font-weight:bold; color: #fffde4; text-align: center; font-size: 110%; padding: 10px; width: 950px; margin: auto;"}
+        = msg
+    - extra_style = ""
+    - level_5_path = "/level_5/#{current_area_obj.clean_name}.png"
+    - if FileTest.exist?(Rails.public_path + level_5_path)
+      - extra_style = "background: url('#{level_5_path}'); background-repeat: no-repeat; background-position: right bottom"
+    -# - if current_area_obj.level == 5 and (file = Guupa::Application.assets.find_asset("level_5/#{current_area_obj.clean_name}.png"))
+    -#   - extra_style = "background: url('#{image_path("level_5/#{current_area_obj.clean_name}.png")}'); background-repeat: no-repeat; background-position: right bottom"
+    -#   %p{:style => "color:white"}
+    -#     = a = image_path("level_5/#{current_area_obj.clean_name}.png")
+    -#     = image_tag(a)
+    -#   %p{:style => "color:white"}
+    -#     = a = file.digest_path
+    -#     = image_tag(a)
+    #my_header{:style => "#{extra_style}; border: 0px solid red"}
+      #user_nav{:style => "float: right; color: #fff2cc; text-align: right; padding-top: 20px; padding-right: 20px; border: 0px solid green"}
+        = render 'layouts/user_nav'
+      #logo{:style => "padding-left: 20px"}
+        %table{:style => "border-collapse: collapse"}
+          %tr
+            %td{:style => "vertical-align: middle"}
+              = link_to(image_tag("#{current_website_id}/logo.png"), root_path, :style => "")
+            %td{:style => "vertical-align: middle; padding-left: 20px"}
+              = link_to(image_tag("guupa_logo.png"), root_path, :style => "")
+              %span{:style => "font-family: arial; font-size: 40%"}
+                beta
+              %br
+              %a{:href => url_for(root_path), :style => ""}
+                = titles[0]
+      .clr
+    #bounds{:style => "display: none"} #{current_area_obj.bounds}
+    - if layout_with_map?
+      #map_area{:style => "width: 990px; margin: auto; clear: both"}
+        %table{:class => "map_table", :style => "margin: 0px; border-spacing: 0px; border: 0px solid blue"}
+          %tr
+            %td{:rowspan => 2}= image_tag("shadow_left.png", :width => "25", :height => "270")
+            %td           
+              #map_canvas
+            %td{:rowspan => 2}= image_tag("shadow_right.png", :width => "25", :height => "270")
+          %tr
+            %td= image_tag("shadow_bottom.png",:width => "940", :height => "25")
+    - else
+      #no_map
+    - if layout_with_map?
+      #my_body_with_map
+        = yield
+    - else
+      #my_body
+        = yield
+    #my_footer
+      %br
+      - if request.get?
+        - backup = I18n.locale
+        - if backup == :en
+          English
+        - else
+          - I18n.locale = :en
+          #{new_link_to("English", :area => current_area_obj.translated, :l => 'en')}
+        -# &nbsp; &middot; &nbsp;
+        -# - if backup == :ja
+        -#   日本語
+        -# - else
+        -#   - I18n.locale = :ja
+        -#   #{new_link_to("日本語", :area => current_area_obj.translated, :l => 'ja')}
+        &nbsp; &middot; &nbsp;
+        - if backup == :it
+          Italiano
+        - else
+          - I18n.locale = :it
+          #{new_link_to("Italiano", :area => current_area_obj.translated, :l => 'it')}
+        - I18n.locale = backup
+        &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp;
+      =link_to_unless_current(t(:help), help_path)
+      &nbsp; &middot; &nbsp;
+      =link_to_unless_current(t(:privacy), privacy_path)
+      &nbsp; &middot; &nbsp;
+      &copy; 2013 Guupa
+  - if show_debug?
+    [ID: #{current_user_obj.id.blank? ? "n/a" : current_user_obj.id}]
+    [Cookies #{supported_cookies? ? "Supported" : "Non Supported"}]
+    - if current_user_obj.created_at
+      [#{time_ago_in_words(current_user_obj.created_at)} #{t :ago}]
+    - if current_user_obj.nobody?
+      [Nobody]
+    - elsif current_user_obj.guest?
+      [Guest]
+    - elsif current_user_obj.temporary?
+      [Temporary: #{current_user_obj.temporary_email}]    
+    - elsif current_user_is_registered?
+      [Registered: #{current_user_obj.email}]    
+    - else
+      [Unknown Type]
+    = image_path("guupa_square_logo.png")
+    %div{:style => "color:white"}
+      %ul
+        %li @html_title = #{@html_title}
+        %li @html_content = #{@html_content}
+    - if @og
+      %div{:style => "color:white"}
+        %ul
+          - @og.keys.sort.each do |og|
+            %li #{og} = #{@og[og]}
+    .links{:style => "background-color: black"}
+      #{current_website_id}
+      &nbsp;
+      %a{:href =>                         "http://lvh.me:3000/"}                         lvh.me
+      &nbsp; | &nbsp;
+      %a{:href =>          "http://world-heritage.lvh.me:3000/"}          world-heritage.lvh.me
+      &nbsp; | &nbsp;
+      %a{:href =>                   "http://ideas.lvh.me:3000/"}                   ideas.lvh.me
+
+
+    #development{:style => "background-color: #eee; border: 2px dotted #ccc; margin-top: 1em; padding: 1em"}
+      - stopw.take_time("views/layout/application: END - Just before analizing the stop watch") 
+      %ul
+        %li Rails: #{Rails::VERSION::STRING}
+        %li Ruby: #{RUBY_VERSION}
+        
+      = stopw.analize.html_safe
+      %ul
+        %li= link_to("Google test", "/google_maps/Reverse_Geocoding.html?1")
+        -# %li= link_to_unless_current t("titles.pages.documentation"), documentation_path
+        -# %li= link_to_unless_current t("CSV Import"), csv_import_path
+      = render 'layouts/footer'
+
+      %h2 request.subdomain
+      = debug(request.subdomain)
+      %h2 current_website_id
+      %ul
+        %li ID: #{current_website_id}
+        %li Translated: #{current_website_obj.translated}
+      %h2 Params
+      = debug(params)
+      %h2 I18n.locale
+      = I18n.locale
+      %h2 request.env["HTTP_ACCEPT_LANGUAGE"]
+      = debug(request.env["HTTP_ACCEPT_LANGUAGE"])
+      %h2 cookies.keys
+      = debug(cookies)
+      %h2 session
+      = debug(session)
+
+      %h2 current_user_obj
+      = debug(current_user_obj)
+      %h2 current_area
+      %ul
+        %li id = #{current_area_obj.id}
+        %li name = #{current_area_obj.name}
+        %li translated = #{current_area_obj.translated}
+        %li level = #{current_area_obj.level}
+        %li child of = #{current_area_obj.parent.name if current_area_obj.parent}
+      %h2 current_website_id
+      %ul
+        %li Application controller: #{current_website_id}
+        %li Tag:   #{Tag.current_website_id}
+        %li Post: #{Tag.current_website_id}
+      %h1 Tag.my_cache
+      - Tag.my_cache.keys.sort.each do |key|
+        %h2 #{key}
+        = debug(Tag.my_cache[key])
+      
+      .palette
+        %h1 Palette
+        .background background-color
+        .background_lighter background_lighter
+        .background_darker background_darker
+        .complementary complementary
+        .complementary_lighter complementary_lighter
+        .complementary_darker complementary_darker
+        .terrain_blue terrain_blue
+        .terrain_green terrain_green
+        .terrain_forest terrain_forest
+

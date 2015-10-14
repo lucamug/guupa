@@ -1,0 +1,22 @@
+.add_comment
+  = form_for comment do |f|
+    = render "layouts/error_messages", :item => comment, :error_message => t(:the_user_cannot_log_in)
+    - if show_debug?
+      %p commentable_id:   #{f.text_field  :commentable_id}
+      %p commentable_type: #{f.text_field  :commentable_type}
+      %p from_action:      #{f.text_field  :from_action}
+    - else
+      = f.hidden_field  :commentable_id
+      = f.hidden_field  :commentable_type
+      = f.hidden_field  :from_action
+    - if comment.from_action == "progress"
+      %p Progress: #{f.text_field  :progress}%
+    = f.text_area  :body, :style => "width: 100%; height: 4.2em", :placeholder => t(:write_a_comment)
+    = f.text_area  :title, :style => "width: 100%; height: 4.2em; display: none"
+    - if current_user_obj.guest?
+      = f.text_field :temporary_email, :style => "float: right; width: 90%; margin-top: 10px", :placeholder => t(:type_your_email_if_you_would_like_to_edit)
+      %div{:style =>"padding-top: 10px"}
+        Email
+    %div{:style =>"padding-top: 10px; text-align: center"}
+      = f.submit
+

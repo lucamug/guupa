@@ -1,0 +1,1727 @@
+Add Chronology
+
+Add attr_accessible whenever is necessary. see https://github.com/rails/rails/issues/5228
+
+To fix the problem with spambot in the comments:
+Comment.where("id != 1 and id != 2 and id != 3").each.map{|comment| comment.status = "REMOVED_BY_OTHER"; comment.save!}
+
+
+Add translation "Removed"
+
+http://findjpn.com/top/category/cooking-program
+
+
+Aggiungere the sleep command before redirect...
+Add the edit icon at the ideas
+Remove the icon in the view post page
+Add the open closed stato in the Meta model query
+Store the history in the comments and call it "commenti e cronologia"
+
+
+"lsof" to see who is keeping a file open
+
+http://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fguupa.com
+
+rake db:test:prepare RAILS_ENV=test
+
+ATTENZIONE to regular expression that involve symbols, in ruby ruby 1.8.7 it works different!
+
+remove an entire folder: rm -rf folder_name
+
+rails runner -e production others/real_cases.rb 
+
+
+##################################
+# Paperclip ######################
+##################################
+
+To see where gems are installed
+
+gem environment
+
+To make it work in production I changed the method run of the paperclip
+located at: /.gems/gems/paperclip-2.4.5/lib/paperclip.rb
+This is bad, but it is momentary
+
+  def run(cmd, arguments = "", local_options = {})
+    if options[:image_magick_path]
+      Paperclip.log("[DEPRECATION] :image_magick_path is deprecated and will be removed. Use :command_path instead")
+    end
+    command_path = options[:command_path] || options[:image_magick_path]
+    # Cocaine::CommandLine.path = ( Cocaine::CommandLine.path ? [Cocaine::CommandLine.path, command_path ].flatten : command_path )
+    local_options = local_options.merge(:logger => logger) if logging? && (options[:log_command] || local_options[:log_command])
+    cmd = command_path + cmd
+    Cocaine::CommandLine.new(cmd, arguments, local_options).run
+  end
+
+
+convert: invalid argument for option `240x180^': -resize.
+
+From http://www.imagemagick.org/discourse-server/viewtopic.php?f=3&t=15616&start=0
+
+The error message indicates that it read the geometry argument correctly but didn't understand it. I checked the Changelog and the ^ wasn't added until version 6.3.8-2 so you'll have to upgrade your version of IM to get the functionality of ^ in geometry specs.
+
+To install the latest version:
+
+wget ftp://ftp.sunet.se/pub/multimedia/graphics/ImageMagick/ImageMagick-6.7.4-6.tar.gz
+tar zxvf <image_magick>.tar.gz
+cd ImageMagick<version>
+LDFLAGS="-L$HOME/local/lib -Wl,-rpath,$HOME/local/lib"
+LD_LIBRARY_PATH=$HOME/local/lib
+./configure --prefix=$HOME/local --with-gslib --with-gs-font-dir=/usr/share/fonts/type1/gsfonts/ --without-perl --without-magick-plus-plus
+make
+make install
+
+As per http://wiki.dreamhost.com/Image_Magick
+
+The program will be in /home/guupa/local/bin/convert -version
+
+/home/guupa/local/bin/convert '/tmp/stream20120123-884-80hsuc-0.jpg[0]' -resize "240x180^" -crop '240x180+0+0' '/tmp/stream20120123-884-80hsuc-020120123-884-1t5lmxl-0.jpg'
+
+
+
+###################################################
+# Installing Compass                              #
+###################################################
+
+luca@ubuntu:/media/200/rails_projects/guupa3_1_3$ compass init rails . --using blueprint/semantic
+directory ./app/stylesheets/ 
+directory ./app/stylesheets/partials/ 
+directory ./public/images/ 
+directory ./public/stylesheets/ 
+   create ./config/compass.rb 
+   create ./app/stylesheets/screen.scss 
+   create ./app/stylesheets/partials/_base.scss 
+   create ./app/stylesheets/partials/_form.scss 
+   create ./app/stylesheets/partials/_page.scss 
+   create ./app/stylesheets/partials/_two_col.scss 
+   create ./app/stylesheets/print.scss 
+   create ./app/stylesheets/ie.scss 
+   create ./public/images/grid.png 
+
+Congratulations! Your rails project has been configured to use Compass.
+Just a couple more things left to do.
+
+Add the following to your Gemfile:
+
+    gem "compass", ">= 0.12.alpha.3"
+
+Then, make sure you restart your server.
+
+Sass will automatically compile your stylesheets during the next
+page request and keep them up to date when they change.
+
+Now add these lines to the head of your layout(s):
+
+%head
+  = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
+  = stylesheet_link_tag 'print.css', :media => 'print'
+  /[if lt IE 8]
+    = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
+
+###################################################
+
+bundle exec rake assets:precompile
+
+
+
+
+https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
+
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install nodejs
+
+
+Company name:  Guupa
+Website name:  Guupa - Idee per Firenze
+Platform name: Choki
+
+http://guupa.com/Idee/Firenze
+http://idee.guupa.com/Firenze
+http://ideona.com/Firenze
+http://guupa.com/Firenze
+
+
+
+
+I was doing...
+
+http://railscasts.com/episodes/275-how-i-test?view=asciicast
+
+spork
+rspec ./spec/mailers/user_mailer_spec.rb 
+(guard)
+
+How Login works
+===============
+
+The cookie "g" contain exactly what is in the "session" variable, that is:
+  - session_id   # Id of the session generated by rails. This because session_reset 
+                 # did not work (http://stackoverflow.com/questions/5685718/how-can-i-find-the-new-session-id-after-the-reset-session-command-in-rails-3)
+  - _csrf_token  # Used internally by rails for...
+  - urid         # Used to match the urid field in the connection table
+
+### Everytime new user is created
+
+- Controller: user Action: create 
+
+### Everytime a user want to login:
+
+- Controller: connections Action: create 
+
+  - User.authenticate(params[:email], params[:password])
+    - Check if "user.password_hash" match with the password encrypted with
+      the salt "user.password_salt"
+  - login_this_user(@user)
+    - Create a new Connection record
+    - Save the random token (Wath Rayan call "auth_token" and I call "urid")
+    - Save the session[:session_id] that is generated by Rails
+
+### On every page the process of cecking if user is connected
+
+  - Check existance of cookie "g"
+  - Both "urid" and "session_id" are presents
+  - Exists a connection record with those urid and session_id and it is "valid"
+
+### Weack and Strong connection
+
+  - Waeck Connection is done on every page. It only rely on information stored
+    in the "g" cookie, so it doesn't query the database. We can store encrypted
+    data or data that cannot be tempered (maybe it is already like that)
+  - Strong Connection is done only on pages that actually
+      - Change the database (edit/create/distroy)
+      - Show sensible data (emails, etc...)
+
+GuuPa - Tools for a better world
+
+Us
+
+We are a group of people coming from different culture and nationality with the
+same passion for building tools to make a better world.
+
+The Issue
+
+We believe that many people are willing to get involved but sometime they
+don't know how.
+
+The Goal
+
+This website try to help those people to find and
+share good ideas and to get together to solve common issues.
+
+We try to leverage the power of mass collaboration that is the web
+to solve local issue either on a small or large scale.
+
+How
+
+Users can share their problems, their ideas, find commong agreements,
+volunteer to solve the issues and eventually get together and work on real
+solution untile the issues are solved.
+
+The GuuPa Team
+
+Keyword: Community, get involved, DiY research, mass
+
+From rndiy.org
+--------------
+
+R&D-I-Y is a web platform with 18,000+ global citizens collaboratively
+innovating for environmental stewardship and quality of urban life.
+
+The platform is currently being developed, building on our alpha project, Windowfarms. 
+
+R&D-I-Y is a web platform for mass collaboration. Together, our community 
+is working to integrate personal scale innovation for environmental 
+stewardship + quality of life into the existing infrastructure of cities.
+We are applying open source software development techniques to physical 
+systems development. We are developing hydroponic systems, LEDs, solar,
+aquaponics, sensor systems, nutrient sources and alternative energy . . . 
+all using open source techniques and as many readily-available materials
+as possible. Join us at our.windowfarms.org.
+
+Idee on Dec 15th
+----------------
+
+Make two type of user logging in systems, one weak and one stronger
+
+- The weak only use cookies so it is very fast. Should be encrypted anyway and
+  should be only used for not crytical pages
+- The strong one access the database to check if the user random id (urid) is
+  correct.
+  
+Let user fill the form without being logged in and give the chance to type
+an email if in the future they want to retrieve these items.
+
+Items that have been submitted this way show up as "anonymous", no author.
+Only the the user log in with the proper email and accept these item as him,
+they will show the proper name.
+
+Should I allow also completely anonymous submission? Yes
+
+What should I do with the present system of logging in the user also if anonymous?
+
+Photo Gallery
+-------------
+
+http://www.1stwebdesigner.com/css/fresh-jquery-image-gallery-display-solutions/
+
+About Testing
+-------------
+
+https://help.ubuntu.com/8.04/serverguide/C/aptitude.html
+http://dambalah.com/2008/11/23/ubuntu-notifications-using-libnotify-bin/
+http://metalelf0dev.blogspot.com/2009/08/autospec-for-rails-libnotify-on-ubuntu.html
+
+How to install and launch rspec
+
+http://www.rubyinside.com/how-to-rails-3-and-rspec-2-4336.html
+
+https://www.relishapp.com/rspec/rspec-core/docs/example-groups/basic-structure-describe-it
+
+Nice list of commands: http://kerryb.github.com/iprug-rspec-presentation/#37
+
+Run "spork" to make the test run faster
+
+rake db:test:prepare
+
+Command:
+
+rspec ./spec/models/user_spec.rb
+
+rspec ./spec/models/post_spec.rb --format documentation
+
+About Redundancy
+----------------
+
+There are several fields in the database that tuplicate the same information
+to increase the performances of the queries.
+
+posts.website_id => taggings.taggable_website_id, votes.votable_website_id
+posts.status     => taggins.taggable_visible, votes.votable_visible
+user.status      => votes.user_visible
+tag.status       => taggings.tag_visible
+
+The User Page
+-------------
+
+User need to see
+
+- The posts that they own. (Because they created or because has been transferred proprerty)
+- The posts that they edited.
+- The posts that they commented.
+- The posts that they liked-disliked
+- The posts that they viewed
+- The posts that they other_1, other_2, other_3 (Example: Have been, will go, would like to go)
+- Which website they actually visited.
+- Tags
+- Location
+
+Posts can be Problems, Ideas, World Heritage (Depending on the website)
+
+This page is very different depending on the site.
+
+Installation
+------------
+
+To install mysql http://shivasoft.in/blog/linux/install-mysql-and-query-browser-in-ubuntu/
+[cygwin](http://www.cygwin.com/)
+
+World Heritage
+--------------
+http://www.tripadvisor.jp/WorldHeritageSites-g293963-d1141
+http://www.worldheritagesite.org/
+http://www.worldheritagesouthwest.org.uk/
+
+
+
+:markdown
+
+  - [Authentication](#authentication)
+  - [Cases <=> Ideas](#cases_ideas)
+  - [Dreamhost](#dreamhost)
+  - [Google Maps Api](#google_api)
+  - [Levels of nesting](#levels_of_nesting)
+  - [Ruby](#ruby)
+  - [Tags](#tags)
+  - [TO DO](#to_do)
+
+
+  <a name="to_do"></a>TO DO
+  -------------------------
+
+  * About sql chaching
+  * to remove chache from log
+  * To read this about voting http://stackoverflow.com/questions/5666627/rails-3-ajax-and-controller-refactor
+  * Consider using this for form: https://github.com/justinfrench/formtastic#readme
+  * Making the same system able to store events and world heritages
+  * Finisch the authorization using cancan
+  * Add circles to help for "raggio of influence"
+  * Add best_idea to issue or to idea.
+  * When the user is logged in as a guest and then create a new account, it should recycle the guest account.
+  * Add proper indexe to database to increase performance. Use "EXPLAIN" command in SQL to check it. Documentation: http://tomafro.net/2009/08/using-indexes-in-rails-index-your-associations
+  * Reogranize field in the issue for the map api. remove locations and instead save the result from the map. Change also the names.
+  * Clean the database removing unused tables
+  * Find some other way to attach global data, instead of using params
+  * Add attachment to Issue and Ideas
+  * Add street view
+  * Move the selection of language in a dropdown area
+  * Move the selection of area in a dropdown area
+  * Move the numbers of view and numbers of votes in the table "issue" so to speed up the ordering and also add a status so that only issues that are online will be shown
+  * Encrypt the email
+  * Remove my_url_for
+  * Add a control at the top in case area has multiple entries witht the same clean name
+  * Should I make tranlsation polymorphic?
+  * Should also rea be translated the same? Because Area are also like like_quantitytags
+  * "These tags are already included: Italy. Tuscany, Florence, Scandicci"
+  * Should tag table contain a definition of the tag? In English? With the possibility of transaltion?
+
+  <a name="ideas"></a>Ideas
+  -------------------------
+
+  * Generalize the site, for example:
+
+    * World Heritage
+    * Largest cities
+    * Tallest bildings
+    * Events
+
+  * "Issues <=> Ideas" could also be
+
+    * Location <=> Event
+    * Item <=> SubItem
+
+  * Investigate if this could be done adding aliases to routing.
+
+  * Is it possible to use several databases for one application?
+
+    * http://railsforum.com/viewtopic.php?id=42143
+
+  * User and tags may be shared, everything else maybe not... Tags also not sure, maybe regional tags should go in different location...
+
+  * Indexes and Performance. These are the possible cases where there could be perofrmances issues:
+
+    * Filter Issues based on tags.
+    * Cound the number if Issue per each tag.
+    * Find the right translation of each tag.
+
+  <a name="world_heritage"></a>world_heritage
+  -------------------------
+
+  * [http://clement.beffa.org/labs/apps/worldheritage/#it]
+  * [http://www.google.com/intl/en/landing/unesco/]
+  * [http://maps.google.co.uk/maps/mapplets?moduleurl=http://www.svmapplets.com/sv/unesco/]
+  * [http://www.thesalmons.org/lynn/whgmap.html]
+  * [http://www.thesalmons.org/lynn/world.heritage.html]
+  * [http://maps.google.com/intl/en/help/maps/streetview/index.html]
+  * [http://www.worldheritagesouthwest.org.uk/]
+
+
+  <a name="fonts"></a>Fonts
+  -------------------------
+
+  * http://www.google.com/webfonts#ChoosePlace:select
+
+  <a name="dreamhost"></a>Dreamhost
+  -------------------------
+
+  To login: ssh angel.dreamhost.com -l luca_m
+  To login: ssh guupa.com -l guupa
+
+  ### Users
+
+    * luca_m c..ac..a
+    * guupa ca..ro
+    * atamishika ri..ko
+
+  ### Databases
+
+  #### Guupa
+
+  *       Name: guupa_prod
+  *   Hostnmae: databases.guupa.com
+  *       User: guupa_db_user
+  *   Password: guupa_database
+  * Connection: mysql -u guupa_db_user -p -h databases.guupa.com guupa_prod
+  * Web interface: http://guupa.com/dh_phpmyadmin/databases.guupa.com/index.php?db=guupa_prod
+  rake db:migrate RAILS_ENV=production
+  RAILS_ENV=production rails c
+
+  ### About Phusiona Passenger and slow start up
+
+  * [http://stackoverflow.com/questions/853532/slow-initial-server-startup-when-using-phusion-passenger-and-rails](slow-initial-server-startup-when-using-phusion-passenger-and-rails)
+
+  <a name="site_examples"></a>Site Examples
+  -----------------------------------
+
+  * [https://www.robodomain.com/](https://www.robodomain.com/ Italia startup)
+  * [http://www.suedtirol.info/en/](http://www.suedtirol.info/en/ Map in Flash)
+
+  ### For Design
+
+  * [http://www.elegantthemes.com/gallery/feather/](http://www.elegantthemes.com/gallery/feather/)
+  * [http://www.elegantthemes.com/preview/LeanBiz/?page_id=371](For header)
+  * [http://www.onextrapixel.com/2009/04/20/45-amazing-css-web-design-galleries/] Collections of Collections of CSS
+  * [http://www.vivacitas.fr/](http://www.vivacitas.fr/)
+  * [http://area51.stackexchange.com/proposals/25069/smugmug?commit=1] (Area 51)
+
+  <a name="tags"></a>Tags
+  -----------------------------------
+
+  ### Fields
+
+  - **url_name**
+      Original best rapresentative name of the tag.
+      In romaji if Japanese location. With proper capital
+      and accented letters as needed usually as it has been typed by user.
+      English version if the location has translations in other languages.
+  - **clean_name**
+      Unique name among all tags. Usually the same as the url_name
+      coming from the map api, but lowercase and no accents.
+  - **child_of_tag_id**     (Father for geographic location)
+  - **translation_of_tag_id** (Father for translation)
+  - **main_translation** (true/false)
+  - **status**
+  - **level** (in case of a geographic tag, 5 if postal code)
+  - **bounds**
+  - **super** (Is this at all necessary?)
+
+  ### Postal code
+
+  Postal code can have a country as a father.
+
+  ### Actions when a query from Map Api
+
+  For eachen level of area, convert it based on enstablished procedures that
+  help to fix situation where there are location with same name, for example:
+
+    - "Florence" => "Province of Florence"
+    - "Castro"   => "Castro (Lombardia)"
+    - "Castro"   => "Castro (Puglia)"
+
+  Clean the result and search it against the clean name and level.
+  If found ok, otherwise create a new one. If a tag with same clean name exsist
+  but with different levels, what shell do? Could create another tag with same
+  clean_name (and possibly also same name) and wait for admin to fix it?
+  Fix need to be done on the database and in the code, for example creating
+  "Province of Florence" in place of "Florence".
+
+  To force certain tag, I could pass the id in parentesis:
+
+  .../Barcelona(123)/...
+
+  So, in case there are two tag with the same short name
+
+  ### Synonimous
+
+    - There can be different translations for the same language (synonimous),
+      in this case is necessary to understand wich translation is the main
+      to be used.
+
+  ### Tags type
+
+    - Goegraphical - When generate by the map and connecte to a region.
+    - Postal_code - When generate by the map and connecte to a region.
+    - NON-Geographical - When type directly by the user.
+    - Translation - When it is a translation of one of the above.
+
+  ### Type of queries
+
+    - From url, searching among all types, by clean name.
+    - While user type keywords. Probably this should be a pre-fetched list
+      of keywords that has been translated in the user language or in English,
+      avoiding the geographical tags
+
+  ### Others
+
+    http://example.com/Île-de-France
+    http://en.wikipedia.org/wiki/Île-de-France_(region)
+
+    With this type of url, the system downcase and remove accents and then query the unique name, that
+    is indexed. This means that also different spelling would works:
+
+    http://example.com/Ile-de-France
+    http://example.com/ile-de-France
+    http://example.com/ile_de_france
+
+    To re-create the url the system internally will use the original_name field
+    so that the url are always naicely formatted.
+
+    In case of Japanese:
+
+    http://example.com/Tokyo
+    http://example.com/東京
+    http://example.com/Tōkyō
+
+    All these form should work the same as wiki
+
+    http://en.wikipedia.org/wiki/Tokyo
+    http://en.wikipedia.org/wiki/東京
+    http://en.wikipedia.org/wiki/Tōkyō
+
+    The one with kanji need a converter from "東京" to Tokyo that I will
+    not implement in the first phase.
+
+    Because all the tags are unique, they can be used for url at any position.
+    Translations can also belong to the same table, so to make it easier to search
+    for them. SO the uniqueness is spread also among different languages that
+    shuold not be a problem.
+
+    Translation are all children of the same father.
+
+    The main tag (the one connected to the issues and other data) is also the
+    one that store the English translation. What if English is not available?
+    "it:tree"
+    So all name locations coming from api map are in English and should be
+    matched with these tags. The day that the map api change name for certain
+    location, there will be two locations at the same place. It would just necessary
+    to merge these two tags together.
+
+
+    Let suppose an Italian user create a tag "albero". It does not exsist already
+    so a new main tag will be created with name "it:albero" and a translation tag with
+    name "albero". Someone then will translate it manually to "tree". In case tree
+    already exsist, the new tag need to be connected with it.
+
+    In case of location with different translation,
+
+    http://example.com/a/b/c
+
+      1. For each word in the url
+      2. make it clean
+      3. search in the "clean_name" field.
+      4. If translation,
+      5. look for the father tag
+      6. list all issues connected to the father tag.
+      7. Then look for the tags they are connected.
+      8. For each tag find if there is a proper child translation.
+      9. If not show the main one (English?)
+
+    For example
+
+    http://example.com/Firenze
+
+    Found a tag for Firenze, that is the translation of Florence tag. Find
+    all issues connected to the Florence tag. Find all the tags connected and
+    find if they have Italian translation.
+
+    Is better to have only one table instad of two because
+
+      - Faster to query only one table
+      - Easier to maintain the uniqueness of the url_name
+
+  <a name="geotagging"></a>GeoTagging
+  -----------------------------------
+
+  - Google return this list of data (the list can be not completed)
+    - Levels from 2 (Country) to 5
+    - Postal code
+    - Address
+  - For each of these there are "bounds" that can be useful for zooming once the tag is selected
+
+  - For each level should be created a tag if it does not exsist.
+  - To check if the tag is the same, all the above levels should be checked too.
+  - If the tag does not exsist but the cleanded name is already taken, the name
+    should be changed to something else. For example Province_of_Florence, or Florence_(Tuscany)
+    - Brione Wikipedia: Brione_(Trentino-Alto_Adige), Brione_(Lombardia)
+    - Castro Wikipedia: Castro_(Lombardia), Castro_(Puglia)
+    I should user the higher level that is different (in the above cases the region and not the province.
+    - Other rules could be that, for example in Italy, all the level 3 are "Province_of_..."
+  - How is possible to check if a tag already exsist? We may need to store all the levels. Should they stay in
+    separate fields?
+
+  - Store the original spelling and capitalization that will be used in Url
+    - http://domain.com/Île-de-France
+    - http://en.wikipedia.org/wiki/%C3%8Ele-de-France_(region)
+  - Store also a cleaned version for searching pourpose. The cleanded version should be unique.
+  - If google change translation of location, it will be necessary to merge tags together (Tuscany <=> Toscana)
+
+  Possible TAGS fields
+
+  * Level                4                     3              5                3
+  * Level_2 (Country)    Italy                 France         Italy            Italy
+  * Level_3              Toscana               Île-de-France  Puglia           Puglia
+  * Level_4              Florence                             Lecce
+  * Level_5                                                   Castro
+  * URL_form             Province_of_Florence  Île-de-France  Castro_(Puglia)  Puglia
+  * Cleaned_form         florence              ile de france  castro
+
+  Translations
+
+  * Language             it                                                    en
+  * Translation          Firenze                                               Apulia
+
+  <a name="google_api"></a>Google API examples
+  --------------------------------------------
+
+  - [v3-geocoder-tool.html](http://gmaps-samples-v3.googlecode.com/svn/trunk/geocoder/v3-geocoder-tool.html)
+  - [draggable-markers.html](http://gmaps-samples-v3.googlecode.com/svn/trunk/draggable-markers/draggable-markers.html)
+  - [v3boundsbox](http://esa.easypagez.com/v3boundsbox/)
+  - [getlatlng.html](http://gmaps-samples-v3.googlecode.com/svn/trunk/geocoder/getlatlng.html)
+  - [http://www.svennerberg.com/2009/01/handling-large-amounts-of-markers-in-google-maps/](http://www.svennerberg.com/2009/01/handling-large-amounts-of-markers-in-google-maps/)
+  - [http://search.missouristate.edu/map/mobile/examples/corners.htm] Map with rounded borders
+  - Marker Maker: http://www.powerhut.co.uk/googlemaps/custom_markers.php
+
+  <a name="ruby"></a>
+  Ruby
+  ----
+
+  - [http://pleac.sourceforge.net/pleac_ruby](Very good list of Ruby examples)
+  - [http://rubylearning.com/satishtalim/ruby_exceptions.html] raise explanation
+  - constantize [http://infovore.org/archives/2006/08/02/getting-a-class-object-in-ruby-from-a-string-containing-that-classes-name/](getting-a-class-object-in-ruby-from-a-string-containing-that-classes-name)
+  - send, to reference a method using a string
+  - eval("@a") to retrieve a variablie by the name
+  - [http://www.natontesting.com/2009/09/05/ruby-regex-code-example-summary/](Regular Expressions)
+  - [http://ruby-toolbox.com/categories/rails_authorization.html](ruby toolbox)
+  - [http://akitaonrails.com/2008/05/25/rolling-with-rails-2-1-the-first-full-tutorial-part-2](Interesting reading about inclludes)
+
+  Console
+  -------
+
+      helper.number_to_currency('123.45')
+      app.get '/florence/cases/1'
+      response = app.response
+      response.body            # get you the HTML
+      response.cookies         # hash of the cookies
+      helper.link_to("a", "b")
+
+  To use "route helpers" in the console
+
+      app.class
+      app.case_path(:area => "ciao", :id => 16)
+      Rails.application.routes.url_helpers.case_path(:area => "ciao", :id => 16)
+
+  Latitude - Accuracy versus decimal places
+  -----------------------------------------
+  From [http://en.wikipedia.org/wiki/Decimal_degrees](http://en.wikipedia.org/wiki/Decimal_degrees)
+
+      decimal
+      places	degrees	           distance
+
+        0     1.0       111     km   111,000     m
+        1     0.1        11.1   km    11,100     m
+        2     0.01        1.11  km     1,110     m
+        3     0.001       0.111 km       111     m
+        4     0.0001	                    11.1   m
+        5     0.00001	                     1.11  m
+        6     0.000001                     0.111 m   11.1   cm
+       *7     0.0000001                               1.11  cm
+        8     0.00000001                              0.111 cm
+
+  Rails
+  -----
+
+  - [Singular and plural](http://slash7.com/2005/11/17/rails-howto-pluralizing/)
+  - [Naming Conventions](http://itsignals.cascadia.com.au/?p=7)
+  - [http://www.ruby-doc.org/docs/Newcomers/ruby.html#objects](Ruby for new comers)
+
+  URLs
+  ----
+
+  :area has information about lat, lng, level, inhabitants, square meters,
+  description, wikipedia, etc.
+
+  level_1, 2, etc. would also be considered tags. The difference is that
+  level_2 cannot show up before level_1 and so on.
+
+  #### Example of shortcuts (:area defined)
+
+      /scandicci/ =>   /italy/tuscany/florence/scandicci/
+      /florence/  =>   /italy/tuscany/florence/florence/  (municipality, not province)
+      /tuscany/   =>   /italy/tuscany/
+
+  For province, it will always be
+
+      /world/europe/italy/tuscany/florence/
+            /europe/italy/tuscany/florence/
+                   /italy/tuscany/florence/
+                         /tuscany/florence/
+
+  Unless I create a new :area entry
+
+  /province_of_florence/ (something like http://en.wikipedia.org/wiki/Province_of_Florence)
+
+
+  /italy/issues/new or /florence/issues/new behave the same, except the header
+  of the page is different and the default map creating a new issue is different.
+
+  Tags
+  ----
+
+  Tags should probably contain only real tags and not location tag. All location tag come from google
+  map and are stored in the Issue item.
+
+  - How can the system reconize a region tag versus a normal tag?
+  - How can the sestem reconize the level of a location tag?
+  - How the system can avoid location with the same name? Esempio
+    - Brione Wikipedia: Brione_(Trentino-Alto_Adige), Brione_(Lombardia)
+    - Castro Wikipedia: Castro_(Lombardia), Castro_(Puglia)
+
+  For example:
+      tag_1/tag_2/tag_3
+
+  I could use a L1 - L5 form:
+      /L1:Italy/Vigili/L2:Tuscany
+
+  Having these tags together the other tags instead...
+
+  - More difficult tags maintenance
+  - Easier for url of the type tag_1/tag_2/tag_3
+
+  Most of the time these tags about location do not have translation.
+
+
+
+
+
+
+
+  Tags can have type: tag, level_1, level_2, level_3. At the beginning I can show only level_1
+  Tags can be browsed with:
+
+  /italy/tag_1/tag_2/etc...
+  /florence/tag_1/tag_2/etc...
+  /florence/tag_1/tag_2/etc...
+  /europe/tag_1/italy/tag_2/tuscany/florence/tag_3/...
+
+  ### Reserved words for tags:
+
+      versions
+      sign_in
+      sign_out
+      sign_out_all
+      votes
+      connections
+      issues
+      ideas
+      tags
+      contact
+      about
+      help
+      documentation
+      cookies_error
+
+  ### Continents
+
+      North America    http://en.wikipedia.org/wiki/North_America
+      South America    http://en.wikipedia.org/wiki/South_America
+      Africa           http://en.wikipedia.org/wiki/Africa
+      Europe           http://en.wikipedia.org/wiki/Europe
+      Asia             http://en.wikipedia.org/wiki/Asia
+      Oceania          http://en.wikipedia.org/wiki/Oceania
+  [http://www.worldatlas.com/cntycont.htm](Countries listed by Continent)
+
+  Levels go from 0 to 7
+
+      level_0) planet: world
+      level_1) continent: europe
+      level_2) country: italy
+      level_3) region: tuscany             (Level 1 in Google maps)
+      level_4) province: florence          (Level 2 in Google maps)
+      level_5) municipality: scandicci     (Level 3 in Google maps)
+      level_6) neighborhood: casellina
+      level_7) street: Via Roma
+
+
+  Versioning
+  ----------
+
+      http://ruby-toolbox.com/categories/activerecord_versioning.html
+      http://railscasts.com/episodes/177-model-versioning
+      http://railscasts.com/episodes/255-undo-with-paper-trail
+      https://github.com/airblade/paper_trail
+
+  When a user edit a __case__, she can also change:
+
+    * Attachments
+    * Tags  /italy/scandicci                    # In this case there could be conflicts
+
+
+  Because these are handled through associations, it is necessary to bring these back
+  to the table so that the versioning system would work. __Votes__ and __Comments__ instead are
+  not under the control of Case. To remove Comments need to work on comment.
+
+  If __Comments__ can only be removed but not edited, don't need version... but the owner
+  may wan to edit... so lets made them versioning too...
+
+  ### HTMLdiff
+
+  To highlight differences in text:
+  https://github.com/myobie/htmldiff#readme
+
+  GEOKIT
+  ------
+
+      http://geokit.rubyforge.org/readme.html
+
+  Dump Database
+  -------------
+
+  rake db:data:dump
+  rake db:data:load
+  * [yaml_db](https://github.com/ludicast/yaml_db)
+  * There is a bug: [https://github.com/ludicast/yaml_db/issues/17](https://github.com/ludicast/yaml_db/issues/17)
+
+  RAILS commands
+  --------------
+
+      = render :partial => "votes/show", :locals => {:id => @case.id, :type => "Case"}
+
+  RAKE commands
+  -------------
+
+      rake db:data:dump   #   Dump contents of Rails database to db/data.yml
+      rake db:data:load   #   Load contents of db/data.yml into the database
+      rake db:migrate
+      rake db:migrate VERSION=0
+      rake db:rollback
+      rake db:rollback STEP=2     # Two steps back
+      rake db:migrate:redo STEP=2 # Two steps back and forward
+      rake db:fixtures:load       # Load fixtures
+      rake db:migrate:reset       # Reapply all migrations
+      rake -T                     # For help
+
+  Bundle commands
+  ---------------
+  
+  bundle update paper_trail # To update a singular moduel
+  Help page: http://gembundler.com/rationale.html
+
+  Useful commands to migrate to dreamhost
+  ---------------------------------------
+
+      ssh angel.dreamhost.com -l guupa
+      rake db:migrate VERSION=0 RAILS_ENV=production
+      bundle install
+      rake db:migrate RAILS_ENV=production
+      ln -s guupa.com.ver.0.3 guupa.com
+      rake db:data:load  RAILS_ENV=production
+      rails console production
+
+  To fix the problem of rack
+  --------------------------
+
+  ll /usr/lib/ruby/gems/1.8/gems/ | grep rack
+  ll /home/guupa/.gems/gems       | grep rack
+  gem list | grep rack
+  http://stackoverflow.com/questions/5774621/phusion-passenger-error-you-have-activated-rack-1-2-1-but-your-gemfile-requires
+  uninstall rack versions = 1.2.1
+
+  Nice query examples
+  -------------------
+
+  From http://stackoverflow.com/questions/4855821/group-by-sum-on-multiple-columns-in-rails-3
+
+  Location.select(:city).group(:city).order("SUM(images_count) DESC").sum(:images_count)
+  Location.group(:city, :province, :country).select(:city, :province, :country, "SUM(images_girl_count) as sum_images_count").order("sum_images_count DESC").collect{|location| [location.city, location.province, location.country, location.sum_images_count]}
+  Location.select(:city, :province, :country, "SUM(images_count) as sum_images_count").group(:city, :province, :country).order("sum_images_count DESC")
+
+  From http://stackoverflow.com/questions/4047833/rails-3-select-with-include
+
+  scope :active, where("hired_on < ? AND (separated_on > ? OR separated_on IS NULL)", Time.now, Time.now )
+  scope :with_role, lambda {|roles| includes(:team_member_roles).where(:team_member_roles => {:role => roles } ) }
+  scope :with_site_code, lambda {|site_codes| includes(:team_member_sites).where(:team_member_sites => {:site_code => site_codes } ) }
+  TeamMember.select("team_members.email, team_members.first_name, team_members.last_name").active.with_site_code(params[:site_code]).with_role(["senior_editing", "senior_and_reg_editing"])
+
+  Authentication
+  --------------
+
+  Connections are handled mainly by connections_controller. The pages involved are:
+
+  - "sign_in"      => "connections#new"
+  - "sign_out"     => "connections#destroy"
+  - "sign_out_all" => "connections#destroy_all"
+  - "connections"  => "connections#index"
+
+
+  Links
+  -----
+
+  * About comments: [disqus.com](http://disqus.com/)
+
+  Cookies
+  -------
+
+  The system keep track of the user storing a __User Random ID__
+  (__URID__ in short) in the cookie. So the system is not based on the session_id created
+  by Rails becuase it was difficult to reset it with the command "reset_session" due to a
+  [bug in Rails](http://stackoverflow.com/questions/5685718/how-can-i-find-the-new-session-id-after-the-reset-session-command-in-rails-3)
+
+  So the __session_id__ remain the same also when a user log out, but the URID is removed and
+  made expired in the database so that the system is more robust for
+  [session fixation](http://en.wikipedia.org/wiki/Session_fixation).
+
+  Method "current_user2" in application_controller.rb
+  ---------------------------------------------------
+
+  Most of the logic of user session is in this method.
+  Everytime a user log in the site, a new entry is created in the table connections of
+  the database unless the user has not cookie active. This is done by the method "current_user2"
+  in the application_controller.rb. The method check if the cookie "g" exists.
+
+  Part of the ideas come from
+  [Authentication From Scratch](http://asciicasts.com/episodes/250-authentication-from-scratch)
+  from railscasts.com
+
+  This is an interesting article about
+  [undeletable cookies](http://samy.pl/evercookie/)
+  end this is about storing data in
+  [HTML 5](http://24ways.org/2010/html5-local-storage)
+
+
+  Others
+  ------
+
+  To unmount a file with truecrypt in linus:
+      sudo umount /media/truecrypt1
+
+  Other site about ideas
+  ----------------------
+
+  1. [uservoice.com](http://uservoice.com/feedback)
+  1. [stackoverflow.com](http://stackoverflow.com)
+  1. [List of privileges in stackoverflow.com](http://stackoverflow.com/privileges)
+
+  Photoshop
+  ---------
+
+  * [http://24ways.org/2010/optimize-your-web-design-workflow](http://24ways.org/2010/optimize-your-web-design-workflow)
+  * [http://www.alistapart.com/articles/settingtypeontheweb](http://www.alistapart.com/articles/settingtypeontheweb)
+  * [http://ubuntuforums.org/showthread.php?t=1572908](Problem with Wine in Ubuntu)
+
+  CSS
+  ---
+
+  * [http://haacked.com/archive/2006/01/13/ClickableBackgroundImagesViaCSS.aspx](Clickable css background)
+
+  <a name="cases_ideas"></a>
+  Cases <=> Ideas
+  ---------------
+
+  Question/answer and problem/solution can be brought to case/idea relation, for example:
+
+      Question: How can I fix this hole in the street? <=> Answer:   Call city hall
+      Problem:  Hole in the street                     <=> Solution: Call city hall
+      Case:     Hole in the street                     <=> Idea:     Call city hall
+
+  Synonimous of "Problem"
+  -----------------------
+
+  Question, Problem, Issue, Case, Rebus, Enigma, Trouble, Matter, Difficulty, Dispute, Obstacle, Riddle,
+
+  Levels of nesting
+  -----------------
+
+  No nesting of comments to avoid long and deeply nested thread that can also generate flames.
+  This means that is not possible to comment comments.
+
+  The levels are:
+
+  - Case
+      - Comment
+      - Comment
+      - Idea
+          - Comment
+          - Comment
+      - Idea
+          - Comment
+          - Comment
+
+  Only 3 levels for nesting should be ok. Also to avoit off-topics.
+
+
+
+  Tables
+  -----------------
+
+  * __Cases__ (the only that is geographically located)
+    1. belongs_to __:user__
+    1. has_many __:ideas__
+    1. has_many __:attachments__,         <span style="color:#660">:as => :attachable</span>
+    1. has_many __:votes__,               <span style="color:#660">:as => :votable</span>
+    1. has_many __:comments__,            <span style="color:#660">:as => :commentable</span>
+    1. has_and_belongs_to_many __:tags__, <span style="color:#660">:as => :taggable</span>
+  * __Ideas__  (can be voted and commented, has attachments, has one case)
+    * belongs_to __:user__
+    * belongs_to __:case__
+    * has_many __:attachments__,         <span style="color:#660">:as => :attachable</span>
+    * has_many __:votes__,               <span style="color:#660">:as => :votable</span>
+    * has_many __:comments__,            <span style="color:#660">:as => :commentable</span>
+    * has_and_belongs_to_many __:tags__, <span style="color:#660">:as => :taggable</span>
+  * __Comments__ (related with Cases, Ideas and Attachmentes)
+    * belongs_to __:user__
+    * belongs_to __:commentable__, <span style="color:green">:polymorphic => true</span>
+    * has_many __:votes__,               <span style="color:#660">:as => :votable</span>
+    * has_and_belongs_to_many __:tags__, <span style="color:#660">:as => :taggable</span>
+      * t.references :commentable, :polymorphic => true
+  * __Attachments__ (that can go with Case, Ideas and Comments)
+    * belongs_to __:user__
+    * belongs_to __:attachable__, <span style="color:green">:polymorphic => true</span>
+    * has_many __:comments__,            <span style="color:#660">:as => :commentable</span>
+    * has_many __:votes__,               <span style="color:#660">:as => :votable</span>
+    * has_and_belongs_to_many __:tags__, <span style="color:#660">:as => :taggable</span>
+      * t.references :attachable, :polymorphic => true
+  * __Votes__ (that can be related with Case, Ideas, Comments, Attachments)
+    * belongs_to __:user__
+    * belongs_to __:votable__, <span style="color:green">:polymorphic => true</span>
+      * t.references :votable, :polymorphic => true
+  * __Connections__ (Users' connections to the system)
+    * belongs_to __:user__
+  * __Tags__ (List of tags)
+    * has_and_belongs_to_many __:taggable__, <span style="color:green">:polymorphic => true</span>
+    * has_many __:translations__,          <span style="color:#660">:as => :translatable</span>
+      * t.references :taggable, :polymorphic => true
+  * __Translations__ (I can handle synonimous as separated translation)
+    * belongs_to __:translatable__, <span style="color:green">:polymorphic => true</span>
+      [This I am not sure if it should be poly]
+      * t.references :translatable, :polymorphic => true
+  * __Users__
+    * has_many __:cases__
+    * has_many __:ideas__
+    * has_many __:comments__
+    * has_many __:attachments__
+    * has_many __:votes__
+    * has_many __:connections__
+
+
+  About polymorphic association: [http://www.brentmc79.com/posts/polymorphic-many-to-many-associations-in-rails](http://www.brentmc79.com/posts/polymorphic-many-to-many-associations-in-rails)
+
+      class Case < ActiveRecord::Base
+        has_many :manifests, :as => :taggable
+        has_many :tags, :through => :manifests
+      end
+
+      class Manifest < ActiveRecord::Base
+        belongs_to :case
+        belongs_to :tag
+      end
+
+      class Tag < ActiveRecord::Base
+        has_many :manifests
+        has_many :cases, :through => :manifests
+      end
+
+  <img src="/images/Guupa.v.1.4.png" width="100%"/>
+
+  This image is done with [http://ondras.zarovi.cz/sql/demo/](http://ondras.zarovi.cz/sql/demo/)
+
+  About polymorphic associations: [http://asciicasts.com/episodes/154-polymorphic-association](http://asciicasts.com/episodes/154-polymorphic-association)
+
+  About relationships in Rails 3 [guides.rubyonrails.org/association_basics.html](http://guides.rubyonrails.org/association_basics.html)
+
+  Wine, ACDsee32 and Photoshop
+  ----------------------------
+
+  From [idiots-guide-installing-photoshop-cs5-ubuntu-1004/](http://www.makeuseof.com/tag/idiots-guide-installing-photoshop-cs5-ubuntu-1004/)
+
+  - Intall Wine
+  - Run: wget http://www.kegel.com/wine/winetricks
+  - Run: sh winetricks msxml6 gdiplus gecko vcrun2005
+  - Run: sudo apt-get install msttcorefonts
+  - Get [msvcr80.dll](http://www.dll-files.com/dllindex/dll-files.shtml?msvcr80) and [atmlib.dll](http://www.dlldump.com/download-dll-files_new.php/dllfiles/A/atmlib.dll/5.1Build226/download.html) and copy in C:\Windows\System32
+
+  Command to associate jpg to ACDSee32:
+
+      wine "/home/luca/.wine/dosdevices/c:/Program Files/acdsee32/ACDSee32.exe"
+
+  - Photoshop has some problem. Only run with, and then ctr+c
+
+      wine /home/luca/.wine/drive_c/Program\ Files/Adobe/Adobe\ Photoshop\ CS2/Photoshop.exe
+
+  Tags
+  ----
+
+  Example: __Street Maintenance__
+
+  * Translation: en: "Street maintenance"
+  * Translation: en: "Road maintenance"
+  * Translation: it: "Manutenzione stradale"
+  * Translation: it: "Manutenzione strade"
+  * Translation: it: "Manutenzione delle strade"
+  * Translation: it: "Lavori stradali"
+
+  Translation will have a fleg for a default translation to use.
+
+  Important queries
+  -----------------
+
+  ### Geographical
+
+  Search all items in certain region order by importance and filtered by some criteria
+
+  #### Ordered by IMPORTANCE: a combination of
+
+  * case's votes
+  * case's answers
+  * case's views
+
+  #### Filters
+
+  * by tag
+
+  Tag is many to many relationship, it means it need a more complicated query
+
+  SELECT FROM tag_item, item
+  WHERE tag_item.tag_id = 32 AND tag_item.item_id = item.id AND ...
+
+  ##########################
+
+  Struggling in having singolare resources:
+
+  http://stackoverflow.com/questions/5771509/rails-routing-problem-changing-resource-from-plural-to-singular-give-no-route-m
+
+  TEST
+
+  To reproduce the error is enough to build a new application:
+
+  rails new routing_test
+  cd routing_test
+  rails generate scaffold User name:string
+  rake db:migrate
+
+  Edit routes.rb
+
+  rails s
+
+  Then go to http://localhost:3000/user/new
+
+  ######################
+
+  file .irbrc in the /home/luca directory
+
+  require 'rubygems'
+  require 'wirble'
+  #require 'activerecord'
+  #ActiveRecord::Base.logger = Logger.new(STDOUT)
+  Wirble.init
+  Wirble.colorize
+  require 'hirb'
+  Hirb.enable
+
+  #########################
+
+  http://www.rubular.com/
+
+  Run  rake db:test:prepare if the test give error: "could not find table..."
+
+  To install rubydebug:
+
+  gem install ruby-debug19 -- --with-ruby-include=/home/luca/.rvm/src/ruby-1.9.2-p180/
+
+  How to use debugger: http://guides.rubyonrails.org/debugging_rails_applications.html
+
+  ### Good document about security
+
+  Cookie are stored in base64. To decode: http://www.motobit.com/util/base64-decoder-encoder.asp
+
+
+  ### Problem of Google creating many entries in the session table
+
+  How to solve this problem: http://railsforum.com/viewtopic.php?id=38891
+  Maybe using this?: http://www.kolodvor.net/2007/11/23/disabling-sessions-in-rails/
+
+  rails generate model ActiveSessions session_id:integer user_id:integer ip:text agent:text
+
+  ### Gedit Plugins
+
+  - Save these into /home/luca/.gnome2/gedit/plugins
+  - [multi-edit](http://jon-walsh.com/journal/multi-edit/)
+  - [advnaced-find](http://code.google.com/p/advanced-find/downloads/detail?name=advanced_find-1.1.1.tar.gz&can=2&q=)
+  - TextMate Style Autocompletation (With Escape)
+  - Font & Colors "Darkmate"
+  - Preferences: Higlight Current line
+  - Preferences: Show row number
+  - If you want to at least set that option so you can customise existing menu entries, run: "gconf-editor"
+    and navigate to /desktop/gnome/interface and check the box for can_change_accels
+    [From here](http://superuser.com/questions/174267/can-you-do-keyboard-shortcuts-in-gedit)
+  - To see the list of methods and classes:
+    - sudo apt-get install ctags
+    - https://github.com/FooBarWidget/gedit-class-browser-plugin
+
+- text = Array.new
+- text.push("### Extensions")
+- text.push("ᴀⱯɐⱭɑⱰɒʙᴃᴄↃↄÐðꝹꝺᴅᴆꝱẟᴇƎǝⱻƏəƐɛɘɜᴈɞʚɤꝻꝼꜰℲⅎꟻꝽᵹɡɢᵷꝾꝿƔɣƢƣʜǶƕⱵⱶꜦ")
+- text.push("ꜧıɪꟾᴉᵻƖɩȷᴊᴋʞʟꝆꝇᴌꝲɮꞀꞁʎᴍꟽꟿꝳɴᴎꝴŊŋᴏᴑɶƆɔᴐᴒᴖᴗƟɵɷȢȣᴕᴘꟼɸⱷĸꞂꞃƦʀꝚꝛᴙɹᴚʁ")
+- text.push("ꝵꝶꝜꝝſꞄꞅßƧƨꜱƩʃƪʅꞆꞇᴛꝷʇᴜᴝᴞꞍɥƜɯꟺᴟƱʊᴠỼỽɅʌᴡʍʏƍᴢꝢꝣƷʒᴣƸƹȜȝÞ")
+- text.push("þǷƿꝨꝩꝪꝫꝬꝭꝮꝯꝸꜪꜫꜬꜭƧƨƼƽƄƅʔɁɂꜢꜣꞋꞌʕᴤᴥꜤꜥʖǀǁǂǃʗʘʬʭ")
+- text.push("### Letters with diacritics")
+- text.push("ÁáÀàĂăẮắẰằẴẵẲẳÂâẤấẦầẪẫẨẩǍǎÅåǺǻÄäǞǟÃãȦȧǠǡĄąĀāẢảȀȁȂȃẠạẶặẬậḀḁȺⱥᶏᶐ")
+- text.push("ḂḃḄḅḆḇɃƀᵬᶀƁɓƂƃ")
+- text.push("ĆćĈĉČčĊċÇçḈḉȻȼƇƈɕꜾꜿ")
+- text.push("ĎďḊḋḐḑḌḍḒḓḎḏĐđᵭᶁƉɖƊɗᶑƋƌȡ")
+- text.push("ÉéÈèĔĕÊêẾếỀềỄễỂểĚěËëẼẽĖėȨȩḜḝĘęĒēḖḗḔḕẺẻȄȅȆȇẸẹỆệḘḙḚḛɆɇᶒⱸᶕᶓɚᶔɝ")
+- text.push("ḞḟᵮᶂƑƒ")
+- text.push("ǴǵĞğĜĝǦǧĠġĢģḠḡꞠꞡǤǥᶃƓɠʛ")
+- text.push("ĤĥȞȟḦḧḢḣḨḩḤḥḪḫH̱ẖĦħɦⱧⱨɧ")
+- text.push("ÍíÌìĬĭÎîǏǐÏïḮḯĨĩİĮįĪīỈỉȈȉȊȋỊịḬḭƗɨᶖᵼ")
+- text.push("ĴĵJ̌ǰɈɉʝɟʄ")
+- text.push("ḰḱǨǩĶķꞢꞣḲḳḴḵᶄƘƙⱩⱪꝀꝁꝂꝃꝄꝅ")
+- text.push("ĹĺĽľĻļḶḷḸḹḼḽḺḻŁłꝈꝉȽƚⱠⱡⱢɫɬᶅɭꞎȴƛ")
+- text.push("ḾḿṀṁṂṃᵯᶆⱮɱ")
+- text.push("ŃńǸǹŇňÑñṄṅŅņꞤꞥṆṇṊṋṈṉᵰƝɲȠƞꞐꞑᶇɳȵ")
+- text.push("ÓóÒòŎŏÔôỐốỒồỖỗỔổǑǒÖöȪȫŐőÕõṌṍṎṏȬȭȮȯȰȱØøǾǿǪǫǬǭŌōṒṓṐṑỎỏȌȍȎȏƠơỚớỜờỠỡỞởỢợỌọỘộᴓᶗꝌꝍⱺꝊꝋ")
+- text.push("ṔṕṖṗⱣᵽꝐꝑᵱᶈƤƥꝒꝓꝔꝕꝖꝗꝘꝙʠ")
+- text.push("ɊɋŔŕŘřṘṙŖŗꞦꞧ")
+- text.push("ȐȑȒȓṚṛṜṝṞṟɌɍᵲɺᶉɻⱹɼⱤɽɾᵳɿ")
+- text.push("ŚśṤṥŜŝŠšṦṧṠṡŞşꞨꞩṢṣṨṩȘșẛẞᵴᶊʂⱾȿẜẝᶋᶘʆ")
+- text.push("ŤťT̈ẗṪṫŢţṬṭȚțṰṱṮṯƾŦŧȾⱦᵵƫƬƭƮʈȶ")
+- text.push("ÚúÙùŬŭÛûǓǔŮůÜüǗǘǛǜǙǚǕǖŰűŨũṸṹŲųŪūṺṻỦủȔȕȖȗƯưỨứỪừỮữỬửỰựỤụṲṳṶṷṴṵɄʉᵾᶙʮʯɰᵿ")
+- text.push("ṼṽṾṿꝞꝟᶌƲʋⱱⱴ")
+- text.push("ẂẃẀẁŴŵW̊ẘẄẅẆẇẈẉⱲⱳ")
+- text.push("ẌẍẊẋᶍ")
+- text.push("ÝýỲỳŶŷY̊ẙŸÿỸỹẎẏȲȳỶỷỴỵɎɏƳƴỾỿ")
+- text.push("ŹźẐẑŽžŻżẒẓẔẕƵƶᵶᶎȤȥʐʑⱿɀⱫⱬǮǯᶚƺʓꝤꝥꝦꝧƻꜮꜯʡʢ")
+- text.push("### Ligatures and digraphs")
+- text.push("ꜲꜳÆæǼǽǢǣᴁᴂꜴꜵꜶꜷꜸꜹꜺꜻꜼꜽȸǱǲǳʣǄǅǆʥʤﬀﬁﬂʩĲĳǇǈǉỺỻʪʫǊǋǌŒœɶꝎꝏᴔȹﬆﬅʨᵺʦʧꜨꜩᵫꝠꝡ")
+- text.push("### Katakana")
+- text.push("カタカナ")
+
+- ciao = ""
+- text.each do |t|
+  - ciao = ciao + t + "\n\n"
+  - ciao = ciao + "ICONV: " + Iconv.iconv('us-ascii//TRANSLIT', 'utf-8', t).join + "\n\n"
+  - ciao = ciao + "MINE: " + Util.text_cleaner(t) + "\n\n"
+
+:markdown
+
+  UNICODE
+  -------
+
+  http://unicode-utils.rubyforge.org/
+
+  Iconv.iconv('us-ascii//IGNORE//TRANSLIT', 'utf-8', $&)[0].sub(/^[\^`'"~](?=[a-z])/i, '')
+
+  - Tag table
+
+  - Normalize form (UnicodeUtils.compatibility_decomposition("ﬁ") => "fi")
+  Iconv
+  http://www.techniconseils.ca/files/scripts/extend_string_ruby/doc/
+  caffÃ¨
+
+  "WeißÀÆàáâãäåſßÄ".mb_chars.normalize(:kd).gsub(/[^x00-\x7F]/n, '').to_s
+
+  test = "á|â|à|å|ä é|ê|è|ë í|î|ì|ï ó|ô|ò|ø|õ|ö ú|û|ù|ü ð|Ð æ ç ß ﬁ abc ABC 123"
+  test.gsub!(/ð|Ð/, "dh")
+  test.gsub!(/Ø|Ǿ|ø|ǿ/, "o")
+  Iconv.iconv('us-ascii//TRANSLIT', 'utf-8', test).join.downcase
+
+  Is this useful?
+  http://chrisfarms.googlecode.com/svn/rails/plugins/acts_as_friendly_param/README
+
+  From http://en.wikipedia.org/wiki/List_of_Latin_letters
+
+
+  #{ciao}
+
+
+  ### HAML Compass
+
+  http://vimeo.com/11671458
+  HAML Reference: http://haml-lang.com/docs/yardoc/file.HAML_REFERENCE.html
+  Should I use this? http://billsaysthis.com/content/compass-blueprint-rails.php
+
+  ### Scaffholding
+
+  rails generate scaffold Item title:string description:text
+
+  ### SQLite
+
+  sqlitebrowser ./db/development.sqlite3 &  # Graphic interface
+
+  ### Backup
+
+  zip ~/Dropbox/GuuPa\ Project/2012.01.28.guupa_code.zip . -r -e -y -x /tmp/\* /.git/\* /log/\*
+
+  zip ~/Dropbox/2011.08.20.world_heritage.zip . -r -e -y -x \*.jpg \*.jpeg  \*.JPEG \*.JPG \*.htm \*.html
+
+  ### Annotate - To add table information as comments in the model file
+
+  In development: gem 'annotate-models', '1.0.4'
+  annotate
+
+  ###
+
+  tail -f log/development.log
+
+  ### Rails commands
+
+  rails generate model Item title:string
+
+  ### Three different way to set PRODUCTION environment
+
+  rails console production
+  rails server --environment production
+  rake db:migrate RAILS_ENV=production
+
+  Git
+  ---
+
+  Good explanation for git [here](http://learn.github.com/p/branching.html)
+
+      git checkout -b new_branch_name   # To create a new branch "new_branch_name"
+      gitk &                            # For the graphic interface
+      git commit -am "Comment"
+
+  To make the present position a branch and go back 3 steps (from [stackoverflow.com](http://stackoverflow.com/questions/1628563/git-move-recent-commit-to-a-new-branch))
+
+      git branch newbranch
+      git reset --hard HEAD~3
+      git checkout newbranch
+
+  How to deploy to dreamhost
+  --------------------------
+
+  http://railstips.org/blog/archives/2008/12/14/deploying-rails-on-dreamhost-with-passenger/
+
+  ###
+
+  Interesting page about useful plugin for Gedit
+  http://rbjl.net/22-rubybuntu-4-make-gedit-better-than-any-ide
+
+  ### Sharing between Windows 7 and Ubuntu
+
+  Hard Disk 200GB
+
+  c:\host\rails_tests\example
+  /host/rails_tests/example
+
+  ### MySQL
+
+  mysql -u root -p
+
+  MySQL Server version: 5.1.49-1ubuntu8.1 (Ubuntu)
+
+  example_development
+
+  To see the list of databases: "show databases;"
+
+  ## Intallation in Ubuntu
+
+  - Seguire le indicazioni sul sito
+  - Modificare  ~/.bashrc adding the line
+  export PATH=/var/lib/gems/1.8/bin:$PATH
+  I also uncommented the line
+  force_color_prompt=yes
+  - This is a good article http://excid3.com/blog/2010/10/ruby-on-rails-3-and-mysql-on-ubuntu-10-10/
+
+  ## Installation of git, ruby, rails
+  ## Steps from http://ryanbigg.com/2010/12/ubuntu-ruby-rvm-rails-and-you
+
+  sudo apt-get install build-essential git-core curl
+  bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+
+  echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+  . ~/.bashrc
+  rvm notes
+  sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf
+  rvm install 1.9.2
+  rvm use 1.9.2
+  rvm --default use 1.9.2
+  gem install rails
+  sudo apt-get install libmysqlclient16-dev
+  sudo apt-get install gitk
+  sudo apt-get install sqlitebrowser
+  gem install ruby-debug19 -- --with-ruby-include=/home/luca/.rvm/src/ruby-1.9.2-p180/
+  # Move to the directory of guupa
+  bundle install
+  sudo apt-get install gedit-plugins
+  # Save this xml file somewhere and load with gedit: http://grigio.org/files/darkmate.xml
+  # Install truecrypt
+  # Install dropbox
+  # Install vlc (from ubuntu software center)
+  sudo apt-get install nautilus-open-terminal
+  # Move the close button to the right: http://www.howtogeek.com/howto/13535/move-window-buttons-back-to-the-right-in-ubuntu-10.04/
+  gconftool-2 --set /apps/metacity/general/button_layout --type string "menu:minimize,maximize,close"
+  # To have the location in nautilus: "/apps/nautilus/preferences/always_use_location_entry"
+  # To scroll with chrome: https://chrome.google.com/webstore/detail/occjjkgifpmdgodlplnacmkejpdionan#
+  # For flash plugin:
+  sudo cp Desktop/libflashplayer.so /opt/google/chrome/plugins
+  sudo cp /usr/lib/flashplugin-installer/libflashplayer.so /opt/google/chrome/plugins
+  Download it from here: http://labs.adobe.com/downloads/flashplayer10_square.html
+  # Gedit autocomplete http://code.google.com/p/gedit-tm-autocomplete/
+  sudo apt-get install gnome-color-chooser
+  gnome-color-chooser # To change the scroll bar color
+  gnome-volume-control-applet
+
+  # To add haml
+  wget http://groups.google.com/group/haml/web/rails.xml
+  sudo cp rails.xml /usr/share/mime/packages/rails.xml
+  sudo update-mime-database /usr/share/mime
+  wget http://groups.google.com/group/haml/web/gedit_rails_syntax.zip
+  sudo unzip gedit_rails_syntax.zip -d /usr/share/gtksourceview-2.0/language-specs/
+
+  After this, need to check this configuration file "/etc/mysql/my.cnf" in the [client] section and copy the socket in the database.yml file.
+
+  ## To change the computer name:
+
+  http://www.liberiangeek.net/2010/06/how-to-quickly-change-computer-name-in-ubuntu-10-04-lucid-lynx/
+  gksu gedit /etc/hostname
+  gksu gedit /etc/hosts
+
+  ## Environment
+
+  "echo $PATH"
+
+  /var/lib/gems/1.8/bin:
+  /usr/local/sbin:
+  /usr/local/bin:
+  /usr/sbin:
+  /usr/bin:Top part locked........ ...... ......O......?
+
+  /sbin:
+  /bin:
+  /usr/games
+
+  ## GEM
+
+  "gem environment" in Ubuntu
+
+  ## Storing Password and email on the database
+
+  - Email is stored encrypted using a keyword that is in the code.
+  - Pasword is stored encrypted using a hash saved is a safe place.
+  ## Unregistered USER
+
+  Data is kept in the database as they surf the same as if they were registred user. A cookie on the user side is used to keep this data.
+
+  At this moment the data is browser dependant. If the user change browser, the data is lost.
+
+  If somewhere during the process the user disclose an email, the system will associate that data to the email... what if that email was already existing in the database? No possible, users are not allowed to insert an exsisting email. In that case they need to login.
+
+  ## Registered USER
+
+  If the user register he can then change browser, no problem.
+
+  DropBox doesn't use email identification. Does email need to be confirmed? For some functionality maybe.
+
+  Assume people are good, so no registration is needed to leave comment, upload pictures, submit issues, etc.
+
+  Users can vote, I like/agree. I dislike/disagree
+
+  Users can create new items (open ticket) or comment on others item. Like a forum thread.
+
+  ### Item
+
+  - Several fields
+  - Tags associated
+  - Attachments
+  - Can be voted
+  - Can be commented
+
+  ### Comments
+
+  Users can leave comments. Comments are different from item
+
+  - Simpler, just a text bix
+  - No Tags associated, tags only for items
+  - Can have one or more pictures attached
+  - Can be voted too
+  - Can be commented too (they can have a thread structure)
+  - Don't have history, once is done and confirmed cannot be removed or edited.
+
+  Who decide on the status of a ticket? The opener? What if the ticket became important? I could give the freedom to everybody to change it, the same as wikipedia.
+
+  People can change the main ticket page, that will have history, in case someone vandalize it. So the main page should have a overview of the isue and updated news. Below the histori and discussion...
+
+  Items should have a fixed part at the top plus the history below in time order, from the newer to the older. Users can either just leave a comment or also edit the fixed part. The fixed part can contain also an highlight of the history, compiled by hand (milestones?)
+
+
+
+  "There is a damaged sidewalk in this street, status: important, responsability: city hall - Updates, province took responsability and promised to fix it before June"
+
+  - On day ... user ... open this topic with subject of "There is a damaged side walk here, status: very important"
+  - On day ... user ... changed the status from very important to important and comment "Moved back to important"
+  - On day ... user ... added the resposnability to city hall and added a picture
+  - On day ... user ... removed the picture
+
+  Basically nothing cannot be undone because everything is in the history. Only system administrator can remove things from history and edit the issue without being in the history (actually they will be in the history too but marked as "hidden". They can also hide some part of the history.
+
+  It is like wikipedia but the history and talking discussion are part of the main page too. Plus there is some metadata and there are no source.
+
+  Even if users are not signed in, they can be asked to be notified when certain issue got updates. I button like "I care for this"... so there will be a list of items that someone care. Another possibility is to be notified about things happening in certain areas.
+
+  When someone add an itme, it can be localized or it can have a size, for example in the circle area of 20 km. There could also be the possibility to draw shapes in the future.
+
+
+
+  #### ITEMS table
+
+  type................... (Problem,Solution,Sale,Event,Location,etc.)
+  title...................O......O......O......O
+  description.............O......O......O......O
+  cost....................O......O......O
+  owner...................
+  organizer............... In case of event
+  gps_latitude............
+  gps_longitude...........
+  gps_radius.............. Size of influence
+  loc_address_by_user.....
+  loc_address.............
+  loc_level_1.............
+  loc_level_2.............
+  loc_level_3.............
+  loc_country.............
+  time_start..............
+  time_end................
+  people_effected......... 1-10, 10-100, 100-1.000, 1.000-10.000, 10.000-100.000, 100.000-1.000.000
+  priority................ Not sure how to define this
+  progress................ percentage
+  history................. Typed by users, it is an overview of everything that happened
+  status (system)......... Can be DRAFT, DELETED, HIDDEN, etc.
+  comments about editing.. Typed by a user that modify this record.
+  last_editing............ Yes|No (Only items with Yes will be active and displayed on the map.)
+  There is the risk that if the item "last" is gone, all the thread will
+  disappear.
+  user_id................. User that create this item
+  owner_user_id........... User that own the thread of items and has some privilege on it
+  first_item_id........... Original item in case this is an editing. All the items that share
+  tha same iniziator are used to build the history
+  parent_1_id............. In case of Event, it could be the Location
+  parent_2_id.............
+  language_id.............
+
+  votes_like.............. This is just to speed up performance *
+  votes_dislike...........
+
+  created_at
+  updated_at
+
+  * How can votes be preserved even when the item is changing? Maybe we can embed a votes counter. It is redunduncy. Otherwise we need to query all items in the same thread and then lookup all votes.
+
+  http://www.facebook.com/profile.php?id=100001772956190
+  http://www.facebook.com/lmugnaini
+
+
+  Given any item, is possible to
+
+  When user edit an exsisting item, the last item will lose the flag "last".
+
+  How to handle recurrent events? Probably creating a father that has the main event description and having exceptions as children.
+
+  =======  Price/Cost
+  Valuta (Euro, Yen)
+  Unita' di misura (Al metro, al mese, al minuto)
+  Prezzo 1, Prezzo 2, etc.      t.datetime "created_at"
+  t.datetime "updated_at"
+
+
+
+  Issue
+
+  Title:                Damaged side walk in Servi street
+  Description:          There is a problem between number 34 and number 46 in Servi street
+  Owner/Resposnability: Unknown/Private/Cityhall/Province/Region/State/UE
+  Priority:             Low/Medium/High (issue is small and not effecting many people, issue is medium and effecting many people, big issue large amount of people effected)
+  Location:
+  Area of influence:
+
+  Event
+
+  Title:                Concert
+  Description:
+  Organizer:
+  Size:                 Small/Medium/Large
+  Area of influence     (how far do you want to notify people, it can be also infinite)
+  Time                  (this can be one day and time, can happen weekly, twice, etc.)
+
+
+
+
+  Notes taken during the trip in Japan
+  ------------------------------------
+
+  There was an idea to make default only when certain attributes are loaded
+  instead using the after_initialized way, that is bad for performances. At
+  p.262 explain how to run after_initialized only for new records.
+  
+  p.178
+  
+  db:reset and db:setup
+  
+  p.187
+  
+  Count the associated records automatically
+  
+  p.261
+  
+  Act-as-paranoid to just mark item as deleted instead destroying them.
+  
+  p.263 
+  
+  Use the serialization feature to store preferences of users or fields that
+  don't need to be queried by the database.
+  
+  p.275
+  
+  A way of storing type of geokeyword by inheritance of class
+  
+  p.286
+  
+  Interesting controller
+  
+  class CommentsController < ApplicationController
+    before_filter :require_admin, :only => :recent
+    expose(:recent_comments) { Comment.recent }
+  end
+  
+  p.295
+  
+  Yelding content
+  
+  p.297
+  
+  Decent exposure
+  
+  p.299
+  
+  To display notice and alerts
+  
+  p.305
+  
+  Passing variables to partials
+  
+  p.402
+  
+  Nice example at listing 11.10
+  
+  
+  
+  
+  
+  To install on windows http://railsinstaller.org/
+  Setting Up Passwordless Authentication with SSH
+  Recipe 2.11. Creating Full-Featured CRUD Applications with Streamlined 
+  
+  Active Admin
+  
+  http://railscasts.com/episodes/284-active-admin
+  http://stackoverflow.com/questions/7206541/activeadmin-with-has-many-problem-undefined-method-new-record
+  http://rubydoc.info/github/gregbell/active_admin/master/frames
+  
+  http://railscasts.com/episodes/283-authentication-with-sorcery
+  
+  See this page for some inspiration about
+  
+  - Milestone
+  - Labels
+    - Bug
+    - Discussion
+    - Feature
+  - Open/Close Issue  
+  
+  https://github.com/gregbell/active_admin/issues?sort=created&direction=desc&labels=Feature&state=open
+  
+  
+  
+  
+  
+  Tokyo
+  0.15 uSv/h = 1.314 mSv/year
+  Aizu
+  0.30 uSv/h = 2.628 mSv/year
+  
+  8760 h/year
+  
+  Dental radiography: 0.005 mSv = 5uSv
+  

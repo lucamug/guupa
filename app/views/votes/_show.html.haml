@@ -1,0 +1,74 @@
+-# Display the voting section.
+-#
+-# Input variables:
+-#
+-# item: object that the user is voting about. Can be a post or something else
+-# vote: object from the table vote for the logged in user but can also nil
+-#
+-# For help on form_for: http://apidock.com/rails/ActionView/Helpers/FormHelper/form_for
+-#
+%div{:id => "edit_post_" + item.id.to_s }
+  = form_for item, :url => post_vote_path(item), :remote => true do |f|
+    = hidden_field_tag :from, request.fullpath
+    =# hidden_field_tag :vote, "ciao"
+    %table{:style => "width: auto; margin: 0px; border-collapse: collapse; float: left", :border => 0}
+      %tr
+        - if current_website_id == 2
+          %td{:style => "text-align: center"}
+            - if item.sub_type == :problem
+              .votes_counter
+                = item.count_vote_4
+              - if vote && vote.vote_4 == 1
+                =# image_tag "icons/escl_da_ye.png"
+                .votes_description
+                  = t("voting.important")
+                = f.submit t("voting.is_not_important"), :name => "vote_4"
+              - else
+                =# image_tag "icons/escl_gray.png"
+                = f.submit t("voting.is_important"), :name => "vote_4"
+            - else
+              .votes_counter
+                = item.count_vote_1
+              - if vote && vote.vote_1 == 1
+                =# image_tag "icons/thumb_da_ye.png"
+                .votes_description
+                  = t("voting.like")
+                = f.submit t("voting.i_dont_like"), :name => "vote_1"
+              - else
+                =# image_tag "icons/thumb_gray.png"
+                = f.submit t("voting.i_like"), :name => "vote_1"
+              %br
+              %br
+              .votes_counter
+                = item.count_vote_2
+              - if vote && vote.vote_2 == 1
+                =# image_tag "icons/hand_da_ye.png"
+                .votes_description
+                  = t("voting.volunteer")
+                = f.submit t("voting.i_dont_volunteer"), :name => "vote_2"
+              - else
+                =# image_tag "icons/hand_gray.png"
+                = f.submit t("voting.i_volunteer"), :name => "vote_2"
+            %br
+            %br
+            - if vote && vote.vote_3 == 1
+              =# image_tag "icons/flag_da_ye.png"
+              .votes_description
+                = t("voting.uncostructive")
+              = f.submit t("voting.is_costructive"), :name => "vote_3"
+            - else
+              =# image_tag "icons/flag_gray.png"
+              = f.submit t("voting.is_uncostructive"), :name => "vote_3"
+                
+        -# - elsif current_website_id == 1
+        -#   %td
+        -#     - if vote && vote.other_2 == 1
+        -#       = f.submit "", :name => :vote, :value => :other_2, :type => :image, :src => "/icons/plane.png", :id => nil
+        -#     - else
+        -#       = f.submit "", :name => :vote, :value => :other_2, :type => :image, :src => "/icons/plane_g.png", :id => nil
+        -#   %td
+        -#     - if vote && vote.other_1 == 1
+        -#       = f.submit "", :name => :vote, :value => :other_1, :type => :image, :src => "/icons/foot.png", :id => nil
+        -#     - else
+        -#       = f.submit "", :name => :vote, :value => :other_1, :type => :image, :src => "/icons/foot_g.png", :id => nil
+

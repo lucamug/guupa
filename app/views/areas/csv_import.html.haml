@@ -1,0 +1,108 @@
+- ActiveRecord::Base.connection.execute("DELETE FROM tags WHERE 1 = 1")
+- ActiveRecord::Base.connection.execute("DELETE FROM taggings WHERE 1 = 1")
+- ActiveRecord::Base.connection.execute("DELETE FROM translations WHERE 1 = 1")
+- ActiveRecord::Base.connection.execute("DELETE FROM issues WHERE 1 = 1")
+- ActiveRecord::Base.connection.execute("DELETE FROM ideas WHERE 1 = 1")
+- world  = Tag.create(:google_name => :world, :level => 0, :super => true)
+
+- world.translations.create(:name => "World",:language_id => :en)
+- world.translations.create(:name => "Mondo",:language_id => :it)
+- world.translations.create(:name => "世界",:language_id => :ja)
+
+- continents = {}
+- continents[:europe]        = world.children.create(:google_name => :europe,        :level => 1, :super => true)
+- continents[:north_america] = world.children.create(:google_name => :north_america, :level => 1, :super => true)
+- continents[:south_america] = world.children.create(:google_name => :south_america, :level => 1, :super => true)
+- continents[:asia]          = world.children.create(:google_name => :asia,          :level => 1, :super => true)
+- continents[:africa]        = world.children.create(:google_name => :africa,        :level => 1, :super => true)
+- continents[:oceania]       = world.children.create(:google_name => :oceania,       :level => 1, :super => true)
+
+- continents[:europe].translations.create(:name => "Europe",:language_id => :en)
+- continents[:europe].translations.create(:name => "Europa",:language_id => :it)
+- continents[:europe].translations.create(:name => "ヨーロッパ",:language_id => :ja)
+- continents[:north_america].translations.create(:name => "North America",:language_id => :en)
+- continents[:north_america].translations.create(:name => "America Settentrionale",:language_id => :it)
+- continents[:north_america].translations.create(:name => "北アメリカ",:language_id => :ja)
+- continents[:south_america].translations.create(:name => "South America",:language_id => :en)
+- continents[:south_america].translations.create(:name => "America Meridionale",:language_id => :it)
+- continents[:south_america].translations.create(:name => "南アメリカ",:language_id => :ja)
+- continents[:asia].translations.create(:name => "Asia",:language_id => :en)
+- continents[:asia].translations.create(:name => "Asia",:language_id => :it)
+- continents[:asia].translations.create(:name => "アジア大陸",:language_id => :ja)
+- continents[:africa].translations.create(:name => "Africa",:language_id => :en)
+- continents[:africa].translations.create(:name => "Africa",:language_id => :it)
+- continents[:africa].translations.create(:name => "アフリカ",:language_id => :ja)
+- continents[:oceania].translations.create(:name => "Oceania",:language_id => :en)
+- continents[:oceania].translations.create(:name => "Oceania",:language_id => :it)
+- continents[:oceania].translations.create(:name => "オセアニア",:language_id => :ja)
+- require 'csv'
+- file = "Countries.csv"
+- @csv = CSV::parse(File.open(file, 'r') {|f| f.read })
+- @csv.shift
+%ol{:style => "margin-left: 10px"}
+  - @csv.each do |row|
+    - country   = row[0].downcase.gsub(/^[\s]+|[\s]$/, "").gsub(/ /, "_")
+    - continent = row[1].downcase.gsub(/ /, "_").to_sym
+    - if country =~ /italy/
+      - c = continents[continent].children.create(:google_name => country, :level => 2, :super => true)
+    - elsif country =~ /france/
+      - c = continents[continent].children.create(:google_name => country, :level => 2, :super => false)
+    =# %li #{continent} | #{country}
+- tag_italy = Tag.where("google_name = ?", "italy").first
+- tag_italy.translations.create(:name => "Italy", :language_id => :en)
+- tag_italy.translations.create(:name => "Italia",:language_id => :it)
+- tag_italy.translations.create(:name => "イタリア",    :language_id => :ja)
+
+- tag_france = Tag.where("google_name = ?", "france").first
+- tag_france.translations.create(:name => "France", :language_id => :en)
+- tag_france.translations.create(:name => "Francia",:language_id => :it)
+
+-# tag_ile =            tag_france.children.create(:google_name => "Île-de-France".downcase,      :level => 3)
+-# tag_paris =             tag_ile.children.create(:google_name => :paris,                        :level => 4)
+-# tag_7th =             tag_paris.children.create(:google_name => "7th_arrondissement_of_Paris", :level => 5)
+
+-# tag_tuscany              =                tag_italy.children.create(:google_name => :tuscany,              :level => 3)
+-# tag_province_of_florence =              tag_tuscany.children.create(:google_name => :florence, :unique_name => :province_of_florence, :level => 4)
+-# tag_florence             = tag_province_of_florence.children.create(:google_name => :florence,             :level => 5)
+-# tag_scandicci            = tag_province_of_florence.children.create(:google_name => :scandicci,            :level => 5)
+
+-# tag_tuscany.translations.create(:name => "Tuscany",:language_id => :en)
+-# tag_tuscany.translations.create(:name => "Toscana",:language_id => :it)
+-# tag_tuscany.translations.create(:name => "トスカーナ州",:language_id => :ja)
+-# tag_province_of_florence.translations.create(:name => "Province of Florence",:language_id => :en)
+-# tag_province_of_florence.translations.create(:name => "Provincia di Firenze",:language_id => :it)
+-# tag_province_of_florence.translations.create(:name => "フィレンツェ県",:language_id => :ja)
+-# tag_florence.translations.create(:name => "Florence",:language_id => :en)
+-# tag_florence.translations.create(:name => "Firenze",:language_id => :it)
+-# tag_florence.translations.create(:name => "フィレンツェ", :language_id => :ja)
+-# tag_scandicci.translations.create(:name => "スカンディッチ", :language_id => :ja)
+
+- road_maintenance = Tag.create(:google_name => :road_maintenance, :level => -1)
+- road_maintenance.translations.create(:name => "Manutenzione Strade", :language_id => :it)
+- road_maintenance.translations.create(:name => "Manutenzione delle Strade", :language_id => :it)
+- road_maintenance.translations.create(:name => "Manutenzione Stradele", :language_id => :it)
+- road_maintenance.translations.create(:name => "道路維持管理", :language_id => :ja)
+
+- municipal_police = Tag.create(:google_name => :municipal_police, :level => -1)
+- municipal_police.translations.create(:name => "Vigili",             :language_id => :it)
+- municipal_police.translations.create(:name => "Polizia Locale",     :language_id => :it)
+- municipal_police.translations.create(:name => "Polizia Municipale", :language_id => :it)
+
+- traffic  = Tag.create(:google_name => :traffic, :level => -1)
+- traffic.translations.create(:name => "交通量", :language_id => :ja)
+
+- issue = Issue.create(:title => "Cantiere sempre aperto in via Fedi", :description => "Quando finiscono i lavori?",  :tag_names => "italy, tuscany, florence, scandicci", :gps_longitude => Integer(43.775373 * 10**7), :gps_latitude => Integer(11.259267 * 10**7))
+
+- issue.tags.push(road_maintenance)
+- idea_1 = issue.ideas.create(:title => "Chiama i vigili", :description => "E spiegagli la situazione.")
+- idea_1.tags.push(municipal_police)
+
+- issue = Issue.create(:title => "Troppi turisti in Piazza Duomo", :description => "Non si riesce a camminare", :tag_names => "italy, tuscany, florence, florence", :gps_longitude => Integer(43.773062 * 10**7), :gps_latitude => Integer(11.255386 * 10**7))
+- issue.tags.push(municipal_police)
+
+- issue = Issue.create(:title => "Troppi turisti sotto la Torre Eiffel", :description => "Non si riesce a camminare", :tag_names => "italy, tuscany, florence, florence", :gps_longitude => Integer(43.773062 * 10**7), :gps_latitude => Integer(11.255386 * 10**7))
+- issue.tags.push(municipal_police)
+
+- issue = Issue.create(:title => "Troppi turisti sotto la Torre Eiffel", :description => "Non si riesce a camminare", :tag_names => "frrrance, Île-de-France, paris", :gps_longitude => Integer(43.773062 * 10**7), :gps_latitude => Integer(11.255386 * 10**7))
+
+

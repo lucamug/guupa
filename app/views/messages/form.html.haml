@@ -1,0 +1,13 @@
+%table{:style => "padding: 60px"}
+  %tr
+    %td{:style => "text-align: center"}
+      = render "layouts/error_messages", :item => message, :error_message => t(:the_message_has_not_been_sent)
+      %h2 #{t :new_message} #{t :to} #{recipient.username_for_display}
+      = form_for message do |f|
+        - if show_debug?
+          = f.text_field :messages_token
+        - else
+          = f.hidden_field :messages_token
+        = f.text_area :body, :style => "width: 500px; height: 100px"
+        %br
+        = f.submit(value = t(:send_message))

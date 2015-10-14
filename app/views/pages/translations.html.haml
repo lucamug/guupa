@@ -1,0 +1,35 @@
+%div{:style => "padding: 10px"}
+  %table{:border => "1px", :style => "border-collapse: collapse"}
+    %tr{:style => "padding: 2px"}
+      %th
+        key
+      %th
+        it
+      %th
+        en
+      %th
+        ja
+    - @result.keys.sort.each do |key|
+      %tr
+        %td
+          = key
+        - if @result[key]["it"].blank?
+          %td{:style => "background-color: red"}
+            = @result[key]["it"]
+        - else
+          %td
+            = @result[key]["it"]
+        - if @result[key]["en"].blank?
+          %td{:style => "background-color: red"}
+            = @result[key]["en"]
+        - else
+          %td
+            = @result[key]["en"]
+        - if @result[key]["ja"].blank?
+          %td{:style => "background-color: red"}
+            = @result[key]["ja"]
+        - else
+          %td
+            = @result[key]["ja"]
+
+      

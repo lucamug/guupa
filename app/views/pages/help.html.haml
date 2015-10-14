@@ -1,0 +1,130 @@
+%div{:style => "padding: 60px 110px 60px 100px"}
+  = render :partial => "layouts/how_it_works"
+
+  %h4
+    = image_tag("guupa_logo.png")
+    %br
+    = t(:share_ideas_and_get_things_done)
+  -if I18n.locale == :it
+    :markdown
+      Con __Guupa__ puoi condividere le tue idee migliori e lavorare insieme
+      agli altri per trovare delle soluzioni a piccoli e grandi problemi nella
+      tua zona. Sarai in contatto con altre persone che, come te, sono disponibili
+      a rimboccarsi le mani ed aiutare gli altri per costruire insieme un mondo
+      migliore.
+      
+      Chiunque può contribuire alla discussione di nuove idee anche senza registrarsi
+      al sito. D'alta paltre ognuno può richiedere la rimozione di massaggi che
+      vengono ritenuti non idonei alla discussione. La moderazione del sito viene
+      fatta dagli utenti stessi.
+      
+      Qui troverai delle spiegazioni dettagliate sul funzionamento di __Guupa__.
+      Crediamo comunque che il sito sia semplice da usare e ti invitiamo
+      a provarlo direttamente.
+  -else
+    :markdown
+      With __Guupa__ you can share your best ideas and work with other to find
+      good solution to small and big problems in your area. You will be in touch
+      with people like you that are willing to help others to build together
+      a better world.
+      
+      Everybody are welcome to contribute to the conversation also without signing
+      into the website. Moderations is done by the user themselves asking for
+      deletion of any comment that they consider inappropriate.
+      
+      Here you will find some details explanation about the website funtionalities.
+      We believe the website is straigforward to use and we invite you to experiment
+      it yourself.
+
+  = t(:to_be_in_contact_with_us).html_safe
+  .sign
+    = t(:the_guupa_team).html_safe
+
+  %h2= t(:users, :count => 2).gsub("2", "")
+  %ol  
+    %li
+      %h3= t :guest_user
+      = t(:guest_user_explanation).html_safe
+    %li
+      %h3= t :temporary_user
+      = t(:temporary_user_explanation).html_safe
+    %li
+      %h3= t :subscribed_user
+      = t(:subscribed_user_explanation).html_safe
+
+
+  %h2= t(:definitions)
+  %ol
+    %li
+      %h3= t(:idea)
+      %ul
+        %li= t(:help_idea_meaning)
+        %li= t(:help_idea_how)
+    %li
+      %h3= t(:problem)
+      %ul
+        %li= t(:help_problem_meaning)
+        %li= t(:help_problem_how)
+    %li
+      %h3= t(:comment)
+      %ul
+        %li= t(:help_comment_meaning)
+        %li= t(:help_comment_how)
+    %li
+      %h3= t(:volunteering)
+      %ul
+        %li= t(:help_volunteering_meaning)
+        %li= t(:help_volunteering_how)
+    %li
+      %h3= t(:liked_idea)
+      %ul
+        %li= t(:help_liked_idea_meaning)
+        %li= t(:help_liked_idea_how)
+    %li
+      %h3= t(:important_problem)
+      %ul
+        %li= t(:help_important_problem_meaning)
+        %li= t(:help_important_problem_how)
+    %li
+      %h3= t(:inappropriate_post)
+      %ul
+        %li= t(:help_inappropriate_post_meaning)
+        %li= t(:help_inappropriate_post_how)
+    %li
+      %h3= t(:visited)
+      %ul
+        %li= t(:help_visited_post_meaning)
+        %li= t(:help_visited_post_how)
+
+
+  -if I18n.locale == :it
+    :markdown
+      ## Chi Siamo
+      
+      __Guupa__ è realizzato da un gruppo di persone di differente provenienza
+      geografica ma con la stessa passione per lo sviluppo di strumenti per
+      costruire un mondo migliore.
+
+      Noi - il team di __Guupa__ - crediamo che molte persone abbiano idee
+      eccellenti e siano disponibili a metterle in pratica ma non sappiano come.
+      Attraverso questo sito web mettiamo insieme queste persone sfruttiamo
+      il potenziale del web come strumento di collaborazione di
+      massa per risolvere problemi reali, sia su piccola che su grande scala.
+      
+  -else
+    :markdown
+      ## About Us
+      
+      __Guupa__ is made by a group of people coming from different parts of the
+      world with the same passion for creating tools to build a better world.
+
+      We - the __Guupa__ team - believe that many people have good ideas and are
+      willing to get involved but they don't know how. Through this website we
+      are connectin these people and get thing done.
+
+      We leverage the power the web as a mass collaboration tool to solve local
+      issue, either on a small or a large scale.
+  = t(:to_be_in_contact_with_us).html_safe
+  .sign
+    = t(:the_guupa_team).html_safe
+
